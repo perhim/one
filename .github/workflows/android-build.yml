@@ -39,6 +39,13 @@ jobs:
           unzip -q gradle-8.0.2-all.zip -d "$HOME/.gradle/wrapper/dists/gradle-8.0.2-all/downloaded"
           rm gradle-8.0.2-all.zip
 
+      - name: Copy web assets into Android assets
+        run: |
+          echo "Copying www -> android/app/src/main/assets/public"
+          mkdir -p android/app/src/main/assets/public
+          rm -rf android/app/src/main/assets/public/* || true
+          cp -a www/. android/app/src/main/assets/public/
+
       - name: Build Android APK
         working-directory: android
         run: |
