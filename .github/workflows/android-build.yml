@@ -39,6 +39,15 @@ jobs:
           unzip -q gradle-8.0.2-all.zip -d "$HOME/.gradle/wrapper/dists/gradle-8.0.2-all/downloaded"
           rm gradle-8.0.2-all.zip
 
+      - name: Debug: Java and Gradle info
+        run: |
+          echo "--- java version ---"
+          java -version || true
+          javac -version || true
+          echo "--- list android dir ---"
+          ls -la android || true
+        shell: bash
+
       - name: Copy web assets into Android assets
         run: |
           echo "Copying www -> android/app/src/main/assets/public"
@@ -46,11 +55,18 @@ jobs:
           rm -rf android/app/src/main/assets/public/* || true
           cp -a www/. android/app/src/main/assets/public/
 
-      - name: Build Android APK
+      - name: Build Android APK (verbose)
         working-directory: android
+        env:
+          GRADLE_USER_HOME: ${{ runner.temp }}/.gradle
         run: |
           chmod +x ./gradlew || true
-          ./gradlew assembleDebug --no-daemon
+          echo "---- gradle wrapper properties ----"
+          cat gradle/wrapper/gradle-wrapper.properties || true
+          echo "---- showing top-level build.gradle -----"
+          sed -n '1,200p' ../build.gradle || true
+          echo "---- running assembleDebug with --info --stacktrace ----"
+          ./gradlew assembleDebug --no-daemon --info --stacktrace || true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
