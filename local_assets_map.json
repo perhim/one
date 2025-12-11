@@ -1,0 +1,190 @@
+﻿{
+    "game_logo":  {
+                      "type":  "image",
+                      "url":  "assets/game_logo.webp"
+                  },
+    "water_drop_animation":  {
+                                 "type":  "image",
+                                 "url":  "assets/water_drop_animation.webp"
+                             },
+    "open_faucet_broken":  {
+                               "type":  "image",
+                               "url":  "assets/open_faucet_broken.webp"
+                           },
+    "open_faucet_repairing":  {
+                                  "type":  "image",
+                                  "url":  "assets/open_faucet_repairing.webp"
+                              },
+    "open_faucet_repaired":  {
+                                 "type":  "image",
+                                 "url":  "assets/open_faucet_repaired.webp"
+                             },
+    "dropping_hose_broken":  {
+                                 "type":  "image",
+                                 "url":  "assets/dropping_hose_broken.webp"
+                             },
+    "dropping_hose_repairing":  {
+                                    "type":  "image",
+                                    "url":  "assets/dropping_hose_repairing.webp"
+                                },
+    "dropping_hose_repaired":  {
+                                   "type":  "image",
+                                   "url":  "assets/dropping_hose_repaired.webp"
+                               },
+    "cracked_pipe_broken":  {
+                                "type":  "image",
+                                "url":  "assets/cracked_pipe_broken.webp"
+                            },
+    "cracked_pipe_repairing":  {
+                                   "type":  "image",
+                                   "url":  "assets/cracked_pipe_repairing.webp"
+                               },
+    "cracked_pipe_repaired":  {
+                                  "type":  "image",
+                                  "url":  "assets/cracked_pipe_repaired.webp"
+                              },
+    "running_shower_broken":  {
+                                  "type":  "image",
+                                  "url":  "assets/running_shower_broken.webp"
+                              },
+    "running_shower_repairing":  {
+                                     "type":  "image",
+                                     "url":  "assets/running_shower_repairing.webp"
+                                 },
+    "running_shower_repaired":  {
+                                    "type":  "image",
+                                    "url":  "assets/running_shower_repaired.webp"
+                                },
+    "leaking_cooler_broken":  {
+                                  "type":  "image",
+                                  "url":  "assets/leaking_cooler_broken.webp"
+                              },
+    "leaking_cooler_repairing":  {
+                                     "type":  "image",
+                                     "url":  "assets/leaking_cooler_repairing.webp"
+                                 },
+    "leaking_cooler_repaired":  {
+                                    "type":  "image",
+                                    "url":  "assets/leaking_cooler_repaired.webp"
+                                },
+    "yard_tap_broken":  {
+                            "type":  "image",
+                            "url":  "assets/yard_tap_broken.webp"
+                        },
+    "yard_tap_repairing":  {
+                               "type":  "image",
+                               "url":  "assets/yard_tap_repairing.webp"
+                           },
+    "yard_tap_repaired":  {
+                              "type":  "image",
+                              "url":  "assets/yard_tap_repaired.webp"
+                          },
+    "overflowing_tank_broken":  {
+                                    "type":  "image",
+                                    "url":  "assets/overflowing_tank_broken.webp"
+                                },
+    "overflowing_tank_repairing":  {
+                                       "type":  "image",
+                                       "url":  "assets/overflowing_tank_repairing.webp"
+                                   },
+    "overflowing_tank_repaired":  {
+                                      "type":  "image",
+                                      "url":  "assets/overflowing_tank_repaired.webp"
+                                  },
+    "kitchen_background":  {
+                               "type":  "image",
+                               "url":  "assets/kitchen_background.webp"
+                           },
+    "yard_background":  {
+                            "type":  "image",
+                            "url":  "assets/yard_background.webp"
+                        },
+    "bathroom_background":  {
+                                "type":  "image",
+                                "url":  "assets/bathroom_background.webp"
+                            },
+    "park_background":  {
+                            "type":  "image",
+                            "url":  "assets/park_background.webp"
+                        },
+    "school_background":  {
+                              "type":  "image",
+                              "url":  "assets/school_background.webp"
+                          },
+    "greenhouse_background":  {
+                                  "type":  "image",
+                                  "url":  "assets/greenhouse_background.webp"
+                              },
+    "water_droplet_sprite":  {
+                                 "type":  "image",
+                                 "url":  "assets/water_droplet_sprite.webp"
+                             },
+    "water_splash_sprite":  {
+                                "type":  "image",
+                                "url":  "assets/water_splash_sprite.webp"
+                            },
+    "button_play":  {
+                        "type":  "image",
+                        "url":  "assets/button_play.webp"
+                    },
+    "button_levels":  {
+                          "type":  "image",
+                          "url":  "assets/button_levels.webp"
+                      },
+    "button_tutorial":  {
+                            "type":  "image",
+                            "url":  "assets/button_tutorial.webp"
+                        },
+    "button_settings":  {
+                            "type":  "image",
+                            "url":  "assets/button_settings.webp"
+                        },
+    "button_pause":  {
+                         "type":  "image",
+                         "url":  "assets/button_pause.webp"
+                     },
+    "icon_lock":  {
+                      "type":  "image",
+                      "url":  "assets/icon_lock.webp"
+                  },
+    "icon_star_empty":  {
+                            "type":  "image",
+                            "url":  "assets/icon_star_empty.webp"
+                        },
+    "icon_star_filled":  {
+                             "type":  "image",
+                             "url":  "assets/icon_star_filled.webp"
+                         },
+    "water_running_loop":  {
+                               "type":  "audio",
+                               "url":  "assets/water_running_loop.wav"
+                           },
+    "tap_repair_sfx":  {
+                           "type":  "audio",
+                           "url":  "assets/tap_repair_sfx.wav"
+                       },
+    "timer_warning_beep":  {
+                               "type":  "audio",
+                               "url":  "assets/timer_warning_beep.wav"
+                           },
+    "water_meter_warning_drip":  {
+                                     "type":  "audio",
+                                     "url":  "assets/water_meter_warning_drip.wav"
+                                 },
+    "win_fanfare":  {
+                        "type":  "audio",
+                        "url":  "assets/win_fanfare.wav"
+                    },
+    "lose_sound":  {
+                       "type":  "audio",
+                       "url":  "assets/lose_sound.wav"
+                   },
+    "button_click_sfx":  {
+                             "type":  "audio",
+                             "url":  "assets/button_click_sfx.wav"
+                         },
+    "background_music_loop":  {
+                                  "type":  "audio",
+                                  "url":  "assets/background_music_loop.wav"
+                              }
+}

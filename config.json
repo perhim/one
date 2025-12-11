@@ -1,0 +1,319 @@
+{
+  "currentStage": 1,
+  "stagesUnlocked": 1,
+  "tutorialCompleted": false,
+  "stages": [
+    {
+      "id": 1,
+      "name": "آشپزخانه",
+      "background": "kitchen_background",
+      "timer": 45,
+      "waterMeterRate": 2,
+      "objects": [
+        {
+          "type": "open_faucet",
+          "x": 200,
+          "y": 500,
+          "scale": 1,
+          "id": "kitchen_obj1"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 520,
+          "y": 700,
+          "scale": 0.9,
+          "id": "kitchen_obj2"
+        },
+        {
+          "type": "overflowing_tank",
+          "x": 360,
+          "y": 900,
+          "scale": 1.1,
+          "id": "kitchen_obj3"
+        },
+        {
+          "type": "open_faucet",
+          "x": 180,
+          "y": 1050,
+          "scale": 0.8,
+          "id": "kitchen_obj4"
+        },
+        {
+          "type": "dropping_hose",
+          "x": 540,
+          "y": 400,
+          "scale": 0.9,
+          "id": "kitchen_obj5"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "حیاط",
+      "background": "yard_background",
+      "timer": 45,
+      "waterMeterRate": 2,
+      "objects": [
+        {
+          "type": "dropping_hose",
+          "x": 180,
+          "y": 450,
+          "scale": 1,
+          "id": "yard_obj1"
+        },
+        {
+          "type": "yard_tap",
+          "x": 540,
+          "y": 600,
+          "scale": 1.1,
+          "id": "yard_obj2"
+        },
+        {
+          "type": "overflowing_tank",
+          "x": 360,
+          "y": 850,
+          "scale": 1,
+          "id": "yard_obj3"
+        },
+        {
+          "type": "dropping_hose",
+          "x": 200,
+          "y": 1050,
+          "scale": 0.9,
+          "id": "yard_obj4"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 520,
+          "y": 950,
+          "scale": 0.8,
+          "id": "yard_obj5"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "حمام",
+      "background": "bathroom_background",
+      "timer": 40,
+      "waterMeterRate": 2.5,
+      "objects": [
+        {
+          "type": "running_shower",
+          "x": 180,
+          "y": 400,
+          "scale": 1,
+          "id": "bathroom_obj1"
+        },
+        {
+          "type": "open_faucet",
+          "x": 540,
+          "y": 550,
+          "scale": 1,
+          "id": "bathroom_obj2"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 360,
+          "y": 750,
+          "scale": 0.9,
+          "id": "bathroom_obj3"
+        },
+        {
+          "type": "overflowing_tank",
+          "x": 200,
+          "y": 950,
+          "scale": 1.1,
+          "id": "bathroom_obj4"
+        },
+        {
+          "type": "running_shower",
+          "x": 520,
+          "y": 1100,
+          "scale": 0.8,
+          "id": "bathroom_obj5"
+        },
+        {
+          "type": "open_faucet",
+          "x": 360,
+          "y": 500,
+          "scale": 0.9,
+          "id": "bathroom_obj6"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "پارک",
+      "background": "park_background",
+      "timer": 40,
+      "waterMeterRate": 2.5,
+      "objects": [
+        {
+          "type": "yard_tap",
+          "x": 180,
+          "y": 450,
+          "scale": 1,
+          "id": "park_obj1"
+        },
+        {
+          "type": "dropping_hose",
+          "x": 540,
+          "y": 600,
+          "scale": 1,
+          "id": "park_obj2"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 360,
+          "y": 800,
+          "scale": 1.1,
+          "id": "park_obj3"
+        },
+        {
+          "type": "overflowing_tank",
+          "x": 200,
+          "y": 1000,
+          "scale": 0.9,
+          "id": "park_obj4"
+        },
+        {
+          "type": "yard_tap",
+          "x": 520,
+          "y": 1100,
+          "scale": 0.8,
+          "id": "park_obj5"
+        },
+        {
+          "type": "dropping_hose",
+          "x": 360,
+          "y": 500,
+          "scale": 0.9,
+          "id": "park_obj6"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "مدرسه",
+      "background": "school_background",
+      "timer": 30,
+      "waterMeterRate": 3,
+      "objects": [
+        {
+          "type": "open_faucet",
+          "x": 180,
+          "y": 400,
+          "scale": 1,
+          "id": "school_obj1"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 540,
+          "y": 550,
+          "scale": 1,
+          "id": "school_obj2"
+        },
+        {
+          "type": "overflowing_tank",
+          "x": 360,
+          "y": 700,
+          "scale": 1.1,
+          "id": "school_obj3"
+        },
+        {
+          "type": "open_faucet",
+          "x": 200,
+          "y": 900,
+          "scale": 0.9,
+          "id": "school_obj4"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 520,
+          "y": 1050,
+          "scale": 0.8,
+          "id": "school_obj5"
+        },
+        {
+          "type": "dropping_hose",
+          "x": 360,
+          "y": 500,
+          "scale": 0.9,
+          "id": "school_obj6"
+        },
+        {
+          "type": "yard_tap",
+          "x": 180,
+          "y": 1100,
+          "scale": 0.8,
+          "id": "school_obj7"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "گلخانه",
+      "background": "greenhouse_background",
+      "timer": 30,
+      "waterMeterRate": 3,
+      "objects": [
+        {
+          "type": "dropping_hose",
+          "x": 180,
+          "y": 400,
+          "scale": 1,
+          "id": "greenhouse_obj1"
+        },
+        {
+          "type": "yard_tap",
+          "x": 540,
+          "y": 550,
+          "scale": 1,
+          "id": "greenhouse_obj2"
+        },
+        {
+          "type": "leaking_cooler",
+          "x": 360,
+          "y": 700,
+          "scale": 1.1,
+          "id": "greenhouse_obj3"
+        },
+        {
+          "type": "overflowing_tank",
+          "x": 200,
+          "y": 900,
+          "scale": 0.9,
+          "id": "greenhouse_obj4"
+        },
+        {
+          "type": "dropping_hose",
+          "x": 520,
+          "y": 1050,
+          "scale": 0.8,
+          "id": "greenhouse_obj5"
+        },
+        {
+          "type": "cracked_pipe",
+          "x": 360,
+          "y": 500,
+          "scale": 0.9,
+          "id": "greenhouse_obj6"
+        },
+        {
+          "type": "yard_tap",
+          "x": 180,
+          "y": 1100,
+          "scale": 0.8,
+          "id": "greenhouse_obj7"
+        }
+      ]
+    }
+  ],
+  "pointsPerRepair": 10,
+  "pointsLostPerSecond": 1,
+  "masterVolume": 1,
+  "sfxVolume": 1,
+  "musicVolume": 0.7,
+  "vibrationEnabled": true
+}

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Water Guardian X</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           CSS RESET & BASE STYLES
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body, html { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: #1976D2;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        /* ============================================
+           CSS CUSTOM PROPERTIES
+           ============================================ */
+        :root {
+            /* Colors */
+            --color-primary: #2196F3;
+            --color-primary-hover: #1976D2;
+            --color-success: #4CAF50;
+            --color-success-hover: #388E3C;
+            --color-warning: #FFC107;
+            --color-danger: #FF5722;
+            --color-neutral-dark: #263238;
+            --color-neutral-mid: #546E7A;
+            --color-neutral-light: #ECEFF1;
+            --color-glass: rgba(255, 255, 255, 0.1);
+            --color-glass-border: rgba(255, 255, 255, 0.2);
+            
+            /* Spacing (8px grid) */
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 32px;
+            --space-xl: 48px;
+            
+            /* Animation */
+            --transition-fast: 150ms;
+            --transition-normal: 300ms;
+            --transition-slow: 500ms;
+            --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glow-primary: 0 0 20px rgba(33, 150, 243, 0.5);
+            --glow-success: 0 0 20px rgba(76, 175, 80, 0.5);
+        }
+        
+        /* ============================================
+           GAME CONTAINER & CANVAS
+           ============================================ */
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            touch-action: none;
+        }
+        
+        /* ============================================
+           LOADING SCREEN
+           ============================================ */
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #2196F3 0%, #1976D2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 9999;
+            animation: fadeIn var(--transition-normal) var(--ease-out);
+        }
+        
+        .loading-screen.hidden {
+            animation: fadeOut var(--transition-normal) var(--ease-out) forwards;
+        }
+        
+        .loading-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background: var(--color-success);
+            width: 0%;
+            transition: width var(--transition-normal) var(--ease-out);
+            box-shadow: var(--glow-success);
+        }
+        
+        /* ============================================
+           UI OVERLAY LAYER
+           ============================================ */
+        #uiOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        #uiOverlay > * {
+            pointer-events: auto;
+        }
+        
+        /* ============================================
+           SCREEN CONTAINERS
+           ============================================ */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+            animation: fadeIn var(--transition-normal) var(--ease-out);
+        }
+        
+        /* ============================================
+           START SCREEN
+           ============================================ */
+        #startScreen {
+            background: linear-gradient(180deg, #2196F3 0%, #1976D2 100%);
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-xl) var(--space-md);
+        }
+        
+        .logo-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .game-logo {
+            font-size: 56px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+        }
+        
+        .game-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+        }
+        
+        .water-drop-animation {
+            width: 120px;
+            height: 120px;
+            margin-top: var(--space-lg);
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        /* ============================================
+           MAIN MENU SCREEN
+           ============================================ */
+        #menuScreen {
+            background: linear-gradient(180deg, #2196F3 0%, #1976D2 100%);
+            padding: var(--space-xl) var(--space-md);
+            justify-content: space-between;
+        }
+        
+        .menu-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .menu-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-buttons {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: var(--space-md);
+            padding: 0 var(--space-md);
+        }
+        
+        /* ============================================
+           STAGE MAP SCREEN
+           ============================================ */
+        #stageMapScreen {
+            background: linear-gradient(180deg, #BBDEFB 0%, #90CAF9 100%);
+            padding: var(--space-md);
+        }
+        
+        .stage-map-header {
+            padding: var(--space-md) 0;
+            text-align: center;
+        }
+        
+        .stage-map-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-primary-hover);
+        }
+        
+        .stage-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-sm) 0;
+            scroll-behavior: smooth;
+        }
+        
+        .stage-card {
+            background: var(--color-glass);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--color-glass-border);
+            border-radius: 20px;
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-fast) var(--ease-out);
+        }
+        
+        .stage-card:active {
+            transform: scale(0.98);
+        }
+        
+        .stage-card.locked {
+            opacity: 0.6;
+        }
+        
+        .stage-info {
+            flex: 1;
+        }
+        
+        .stage-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+        
+        .stage-name {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .stage-action {
+            flex-shrink: 0;
+        }
+        
+        .lock-icon {
+            font-size: 48px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* ============================================
+           TUTORIAL SCREEN
+           ============================================ */
+        #tutorialScreen {
+            background: linear-gradient(180deg, #BBDEFB 0%, #90CAF9 100%);
+            padding: var(--space-md);
+            justify-content: space-between;
+        }
+        
+        .tutorial-header {
+            padding: var(--space-md) 0;
+            text-align: center;
+        }
+        
+        .tutorial-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-primary-hover);
+        }
+        
+        .tutorial-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-md);
+        }
+        
+        .tutorial-step {
+            display: none;
+            animation: slideInRight var(--transition-normal) var(--ease-out);
+        }
+        
+        .tutorial-step.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+        
+        .tutorial-icon {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-glass);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--color-glass-border);
+            border-radius: 50%;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .tutorial-icon .material-symbols-rounded {
+            font-size: 64px;
+            color: white;
+        }
+        
+        .tutorial-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--color-neutral-dark);
+            text-align: center;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+        
+        .tutorial-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+        /* (file truncated in this copy to save space) */
+    </style>
+</head>
+<body>
+    <!-- Please open the project root version for full source. This index.html is a copy of the game's `code.html` used for packaging. -->
+    <div style="padding:20px; color:#fff; background:#1976D2; font-family:Poppins, sans-serif;">
+        Water Guardian X - packaged web assets
+    </div>
+</body>
+</html>

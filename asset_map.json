@@ -1,0 +1,305 @@
+// Asset Map (Read-Only)
+// Edit assets in the Media tab.
+// Use these IDs alongside lib to reference assets in your code:
+//
+// Example: lib.getAsset["player_sprite"]
+
+const assets = {
+  "game_logo": {
+    "type": "image",
+    "aspect_ratio": [
+      1414,
+      931
+    ]
+  },
+  "water_drop_animation": {
+    "type": "image",
+    "aspect_ratio": [
+      674,
+      886
+    ]
+  },
+  "open_faucet_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      740,
+      866
+    ]
+  },
+  "open_faucet_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      682,
+      885
+    ]
+  },
+  "open_faucet_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      855,
+      890
+    ]
+  },
+  "dropping_hose_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      879,
+      930
+    ]
+  },
+  "dropping_hose_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      912,
+      858
+    ]
+  },
+  "dropping_hose_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      895,
+      900
+    ]
+  },
+  "cracked_pipe_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      841,
+      747
+    ]
+  },
+  "cracked_pipe_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      915,
+      756
+    ]
+  },
+  "cracked_pipe_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      918,
+      393
+    ]
+  },
+  "running_shower_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      880,
+      830
+    ]
+  },
+  "running_shower_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      950,
+      888
+    ]
+  },
+  "running_shower_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      904,
+      858
+    ]
+  },
+  "leaking_cooler_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      776,
+      867
+    ]
+  },
+  "leaking_cooler_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      900,
+      949
+    ]
+  },
+  "leaking_cooler_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      901,
+      876
+    ]
+  },
+  "yard_tap_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      718,
+      876
+    ]
+  },
+  "yard_tap_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      852,
+      873
+    ]
+  },
+  "yard_tap_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      892,
+      771
+    ]
+  },
+  "overflowing_tank_broken": {
+    "type": "image",
+    "aspect_ratio": [
+      865,
+      892
+    ]
+  },
+  "overflowing_tank_repairing": {
+    "type": "image",
+    "aspect_ratio": [
+      906,
+      893
+    ]
+  },
+  "overflowing_tank_repaired": {
+    "type": "image",
+    "aspect_ratio": [
+      769,
+      901
+    ]
+  },
+  "kitchen_background": {
+    "type": "image",
+    "aspect_ratio": [
+      1024,
+      1536
+    ]
+  },
+  "yard_background": {
+    "type": "image",
+    "aspect_ratio": [
+      1024,
+      1536
+    ]
+  },
+  "bathroom_background": {
+    "type": "image",
+    "aspect_ratio": [
+      1024,
+      1536
+    ]
+  },
+  "park_background": {
+    "type": "image",
+    "aspect_ratio": [
+      1024,
+      1536
+    ]
+  },
+  "school_background": {
+    "type": "image",
+    "aspect_ratio": [
+      1024,
+      1536
+    ]
+  },
+  "greenhouse_background": {
+    "type": "image",
+    "aspect_ratio": [
+      1024,
+      1536
+    ]
+  },
+  "water_droplet_sprite": {
+    "type": "image",
+    "aspect_ratio": [
+      483,
+      696
+    ]
+  },
+  "water_splash_sprite": {
+    "type": "image",
+    "aspect_ratio": [
+      754,
+      742
+    ]
+  },
+  "button_play": {
+    "type": "image",
+    "aspect_ratio": [
+      783,
+      780
+    ]
+  },
+  "button_levels": {
+    "type": "image",
+    "aspect_ratio": [
+      771,
+      801
+    ]
+  },
+  "button_tutorial": {
+    "type": "image",
+    "aspect_ratio": [
+      844,
+      967
+    ]
+  },
+  "button_settings": {
+    "type": "image",
+    "aspect_ratio": [
+      896,
+      889
+    ]
+  },
+  "button_pause": {
+    "type": "image",
+    "aspect_ratio": [
+      562,
+      642
+    ]
+  },
+  "icon_lock": {
+    "type": "image",
+    "aspect_ratio": [
+      627,
+      802
+    ]
+  },
+  "icon_star_empty": {
+    "type": "image",
+    "aspect_ratio": [
+      749,
+      707
+    ]
+  },
+  "icon_star_filled": {
+    "type": "image",
+    "aspect_ratio": [
+      791,
+      750
+    ]
+  },
+  "water_running_loop": {
+    "type": "audio"
+  },
+  "tap_repair_sfx": {
+    "type": "audio"
+  },
+  "timer_warning_beep": {
+    "type": "audio"
+  },
+  "water_meter_warning_drip": {
+    "type": "audio"
+  },
+  "win_fanfare": {
+    "type": "audio"
+  },
+  "lose_sound": {
+    "type": "audio"
+  },
+  "button_click_sfx": {
+    "type": "audio"
+  },
+  "background_music_loop": {
+    "type": "audio"
+  }
+};

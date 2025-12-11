@@ -1,0 +1,9 @@
+asset_id,suggested_filename,url_to_download
+water_running_loop,assets/water_running_loop.wav,
+tap_repair_sfx,assets/tap_repair_sfx.wav,
+timer_warning_beep,assets/timer_warning_beep.wav,
+water_meter_warning_drip,assets/water_meter_warning_drip.wav,
+win_fanfare,assets/win_fanfare.wav,
+lose_sound,assets/lose_sound.wav,
+button_click_sfx,assets/button_click_sfx.wav,
+background_music_loop,assets/background_music_loop.wav
