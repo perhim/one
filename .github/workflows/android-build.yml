@@ -1,17 +1,15 @@
 name: Android build
-name: Android build
-
-on:
-  push:
-    branches: [ main, master ]
-  workflow_dispatch: {}
-
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
       ANDROID_HOME: ${{ runner.temp }}/android-sdk
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,6 +22,7 @@ jobs:
 
       - name: Install Android SDK command-line tools and platforms
         run: |
+          export ANDROID_SDK_ROOT="$RUNNER_TEMP/android-sdk"
           mkdir -p "$ANDROID_SDK_ROOT"
           echo "Downloading Android command line tools"
           curl -fSL "https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip" -o cmdline-tools.zip
@@ -46,13 +45,14 @@ jobs:
       - name: Make gradlew executable
         working-directory: android
         run: |
+          export ANDROID_SDK_ROOT="$RUNNER_TEMP/android-sdk"
           chmod +x ./gradlew || true
 
       - name: Build Android APK (capture log)
         working-directory: android
-        env:
-          GRADLE_USER_HOME: ${{ runner.temp }}/.gradle
         run: |
+          export ANDROID_SDK_ROOT="$RUNNER_TEMP/android-sdk"
+          export GRADLE_USER_HOME="$RUNNER_TEMP/.gradle"
           ./gradlew assembleDebug --no-daemon --stacktrace --info 2>&1 | tee gradle-output.log || true
 
       - name: Upload Gradle log
@@ -66,4 +66,4 @@ jobs:
         with:
           name: app-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+
