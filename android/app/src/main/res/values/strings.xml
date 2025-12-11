@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Water Guardian X</string>
-    <string name="title_activity_main">Water Guardian X</string>
-    <string name="package_name">com.example.waterguardianx</string>
-    <string name="custom_url_scheme">com.example.waterguardianx</string>
+    <string name="app_name">نگهبان آب</string>
+    <string name="title_activity_main">نگهبان آب</string>
+    <string name="package_name">com.rahimierfan.waterguardian</string>
+    <string name="custom_url_scheme">com.rahimierfan.waterguardian</string>
 </resources>

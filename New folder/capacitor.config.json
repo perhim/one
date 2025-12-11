@@ -1,0 +1,6 @@
+{
+  "appId": "com.erfanrahimi.waterguardian",
+  "appName": "نگهبان آب",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

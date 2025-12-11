@@ -1,0 +1,338 @@
+C:.
+├───.github
+│   └───workflows
+├───android
+│   ├───.gradle
+│   │   ├───8.0.2
+│   │   │   ├───checksums
+│   │   │   ├───dependencies-accessors
+│   │   │   ├───fileChanges
+│   │   │   ├───fileHashes
+│   │   │   └───vcsMetadata
+│   │   ├───buildOutputCleanup
+│   │   └───vcs-1
+│   ├───.idea
+│   ├───app
+│   │   ├───build
+│   │   └───src
+│   │       ├───androidTest
+│   │       │   └───java
+│   │       │       └───com
+│   │       │           └───getcapacitor
+│   │       │               └───myapp
+│   │       ├───main
+│   │       │   ├───assets
+│   │       │   │   └───public
+│   │       │   ├───java
+│   │       │   │   └───com
+│   │       │   │       └───example
+│   │       │   │           └───waterguardianx
+│   │       │   └───res
+│   │       │       ├───drawable
+│   │       │       ├───drawable-land-hdpi
+│   │       │       ├───drawable-land-mdpi
+│   │       │       ├───drawable-land-xhdpi
+│   │       │       ├───drawable-land-xxhdpi
+│   │       │       ├───drawable-land-xxxhdpi
+│   │       │       ├───drawable-port-hdpi
+│   │       │       ├───drawable-port-mdpi
+│   │       │       ├───drawable-port-xhdpi
+│   │       │       ├───drawable-port-xxhdpi
+│   │       │       ├───drawable-port-xxxhdpi
+│   │       │       ├───drawable-v24
+│   │       │       ├───layout
+│   │       │       ├───mipmap-anydpi-v26
+│   │       │       ├───mipmap-hdpi
+│   │       │       ├───mipmap-mdpi
+│   │       │       ├───mipmap-xhdpi
+│   │       │       ├───mipmap-xxhdpi
+│   │       │       ├───mipmap-xxxhdpi
+│   │       │       ├───values
+│   │       │       └───xml
+│   │       └───test
+│   │           └───java
+│   │               └───com
+│   │                   └───getcapacitor
+│   │                       └───myapp
+│   ├───capacitor-cordova-android-plugins
+│   │   └───src
+│   │       └───main
+│   │           ├───java
+│   │           └───res
+│   └───gradle
+│       └───wrapper
+├───assets
+├───node_modules
+│   ├───.bin
+│   ├───@capacitor
+│   │   ├───android
+│   │   │   └───capacitor
+│   │   │       └───src
+│   │   │           └───main
+│   │   │               ├───assets
+│   │   │               ├───java
+│   │   │               │   └───com
+│   │   │               │       └───getcapacitor
+│   │   │               │           ├───annotation
+│   │   │               │           ├───cordova
+│   │   │               │           ├───plugin
+│   │   │               │           │   └───util
+│   │   │               │           └───util
+│   │   │               └───res
+│   │   │                   ├───layout
+│   │   │                   └───values
+│   │   ├───cli
+│   │   │   ├───assets
+│   │   │   ├───bin
+│   │   │   └───dist
+│   │   │       ├───android
+│   │   │       ├───ios
+│   │   │       ├───tasks
+│   │   │       ├───util
+│   │   │       └───web
+│   │   └───core
+│   │       ├───dist
+│   │       └───types
+│   │           └───legacy
+│   ├───@ionic
+│   │   ├───cli-framework-output
+│   │   │   └───dist
+│   │   ├───utils-array
+│   │   │   └───dist
+│   │   ├───utils-fs
+│   │   │   └───dist
+│   │   ├───utils-object
+│   │   │   └───dist
+│   │   ├───utils-process
+│   │   │   ├───dist
+│   │   │   └───node_modules
+│   │   │       └───@ionic
+│   │   │           └───utils-terminal
+│   │   │               └───dist
+│   │   ├───utils-stream
+│   │   │   └───dist
+│   │   ├───utils-subprocess
+│   │   │   ├───dist
+│   │   │   └───node_modules
+│   │   │       └───@ionic
+│   │   │           └───utils-terminal
+│   │   │               └───dist
+│   │   └───utils-terminal
+│   │       └───dist
+│   ├───@types
+│   │   ├───fs-extra
+│   │   ├───node
+│   │   │   ├───assert
+│   │   │   ├───compatibility
+│   │   │   ├───dns
+│   │   │   ├───fs
+│   │   │   ├───inspector
+│   │   │   ├───path
+│   │   │   ├───readline
+│   │   │   ├───stream
+│   │   │   ├───test
+│   │   │   ├───timers
+│   │   │   ├───ts5.6
+│   │   │   │   └───compatibility
+│   │   │   ├───ts5.7
+│   │   │   │   └───compatibility
+│   │   │   ├───util
+│   │   │   └───web-globals
+│   │   └───slice-ansi
+│   ├───@xmldom
+│   │   └───xmldom
+│   │       └───lib
+│   ├───ansi-regex
+│   ├───ansi-styles
+│   ├───astral-regex
+│   ├───at-least-node
+│   ├───balanced-match
+│   │   └───.github
+│   ├───base64-js
+│   ├───big-integer
+│   ├───bplist-parser
+│   ├───brace-expansion
+│   │   └───.github
+│   ├───buffer-crc32
+│   ├───chownr
+│   ├───color-convert
+│   ├───color-name
+│   ├───commander
+│   │   ├───lib
+│   │   └───typings
+│   ├───cross-spawn
+│   │   └───lib
+│   │       └───util
+│   ├───debug
+│   │   └───src
+│   ├───define-lazy-prop
+│   ├───elementtree
+│   │   ├───lib
+│   │   │   └───parsers
+│   │   └───tests
+│   │       └───data
+│   ├───emoji-regex
+│   │   └───es2015
+│   ├───env-paths
+│   ├───fd-slicer
+│   │   └───test
+│   ├───fs-extra
+│   │   └───lib
+│   │       ├───copy
+│   │       ├───copy-sync
+│   │       ├───empty
+│   │       ├───ensure
+│   │       ├───fs
+│   │       ├───json
+│   │       ├───mkdirs
+│   │       ├───move
+│   │       ├───move-sync
+│   │       ├───output
+│   │       ├───path-exists
+│   │       ├───remove
+│   │       └───util
+│   ├───fs-minipass
+│   │   └───node_modules
+│   │       └───minipass
+│   ├───fs.realpath
+│   ├───glob
+│   │   └───dist
+│   │       ├───cjs
+│   │       └───mjs
+│   ├───graceful-fs
+│   ├───inherits
+│   ├───ini
+│   │   └───lib
+│   ├───is-docker
+│   ├───is-fullwidth-code-point
+│   ├───is-wsl
+│   ├───isexe
+│   │   └───test
+│   ├───jsonfile
+│   ├───kleur
+│   ├───lru-cache
+│   │   └───dist
+│   │       ├───commonjs
+│   │       └───esm
+│   ├───minimatch
+│   │   └───dist
+│   │       ├───cjs
+│   │       └───mjs
+│   ├───minipass
+│   ├───minizlib
+│   │   └───node_modules
+│   │       └───minipass
+│   ├───mkdirp
+│   │   ├───bin
+│   │   └───lib
+│   ├───ms
+│   ├───native-run
+│   │   ├───assets
+│   │   │   └───android
+│   │   │       └───skins
+│   │   │           ├───nexus_5x
+│   │   │           ├───pixel
+│   │   │           ├───pixel_2
+│   │   │           └───pixel_3
+│   │   ├───bin
+│   │   └───dist
+│   │       ├───android
+│   │       │   └───utils
+│   │       │       └───sdk
+│   │       ├───ios
+│   │       │   ├───lib
+│   │       │   │   ├───client
+│   │       │   │   └───protocol
+│   │       │   └───utils
+│   │       └───utils
+│   ├───open
+│   ├───path-key
+│   ├───path-scurry
+│   │   ├───dist
+│   │   │   ├───commonjs
+│   │   │   └───esm
+│   │   └───node_modules
+│   │       └───minipass
+│   │           └───dist
+│   │               ├───commonjs
+│   │               └───esm
+│   ├───pend
+│   ├───plist
+│   │   ├───.github
+│   │   │   └───workflows
+│   │   ├───dist
+│   │   ├───examples
+│   │   │   └───browser
+│   │   └───lib
+│   ├───prompts
+│   │   ├───dist
+│   │   │   ├───dateparts
+│   │   │   ├───elements
+│   │   │   └───util
+│   │   ├───lib
+│   │   │   ├───dateparts
+│   │   │   ├───elements
+│   │   │   └───util
+│   │   └───node_modules
+│   │       └───kleur
+│   ├───readable-stream
+│   │   └───lib
+│   │       └───internal
+│   │           └───streams
+│   ├───rimraf
+│   │   └───dist
+│   │       ├───cjs
+│   │       │   └───src
+│   │       └───mjs
+│   ├───safe-buffer
+│   ├───sax
+│   │   └───lib
+│   ├───semver
+│   │   ├───bin
+│   │   ├───classes
+│   │   ├───functions
+│   │   ├───internal
+│   │   └───ranges
+│   ├───shebang-command
+│   ├───shebang-regex
+│   ├───signal-exit
+│   ├───sisteransi
+│   │   └───src
+│   ├───slice-ansi
+│   ├───split2
+│   ├───string-width
+│   ├───string_decoder
+│   │   └───lib
+│   ├───strip-ansi
+│   ├───tar
+│   │   ├───lib
+│   │   └───node_modules
+│   │       └───minipass
+│   ├───through2
+│   ├───tree-kill
+│   ├───tslib
+│   │   └───modules
+│   ├───undici-types
+│   ├───universalify
+│   ├───untildify
+│   ├───util-deprecate
+│   ├───which
+│   │   └───bin
+│   ├───wrap-ansi
+│   ├───xml2js
+│   │   ├───lib
+│   │   └───node_modules
+│   │       └───xmlbuilder
+│   │           ├───lib
+│   │           └───typings
+│   ├───xmlbuilder
+│   │   ├───.vscode
+│   │   ├───lib
+│   │   ├───perf
+│   │   │   └───basic
+│   │   └───typings
+│   ├───yallist
+│   └───yauzl
+├───scripts
+├───translations
+└───www

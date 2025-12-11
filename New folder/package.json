@@ -1,0 +1,17 @@
+{
+  "name": "water-guardian",
+  "version": "1.0.1",
+  "description": "وب‌اپلیکیشن نگهبان آب — بسته شده برای اندروید",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo \"no build step; web assets are in ./www\""
+  },
+  "dependencies": {
+    "@capacitor/core": "^5.7.8"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^5.7.8",
+    "@capacitor/android": "^5.7.8"
+  },
+  "license": "MIT"
+}
