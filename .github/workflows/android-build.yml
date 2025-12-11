@@ -18,18 +18,19 @@
             with:
               node-version: '18'
 
-          - name: Install dependencies
+          - name: Prepare web assets and (optional) npm/capacitor
             run: |
-              # Use npm ci if a lockfile exists, otherwise fall back to npm install
-              if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
-                npm ci
+              if [ -f package.json ]; then
+                echo "package.json found — installing deps and running npx cap sync"
+                if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+                  npm ci
+                else
+                  npm install --no-audit --no-fund
+                fi
+                npx cap sync android
               else
-                npm install --no-audit --no-fund
+                echo "package.json not found — skipping npm install and cap sync"
               fi
-
-          - name: Sync Capacitor Android
-            run: |
-              npx cap sync android
 
           - name: Copy web assets into Android assets
             run: |
