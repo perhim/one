@@ -1312,6 +1312,9 @@
                             </div>
                             <p class="tip-text" id="waterTip">آفرین! شما آب را ذخیره کردید!</p>
                         </div>
+                        <p style="color: #90CAF9; font-size: 13px; margin-top: 16px; font-style: italic; text-align: center;">
+                            💧 لطفا مرا بخوانید — هر قطره‌ای برای سیاره ما مهم است!
+                        </p>
                     </div>
                     <div class="modal-actions">
                         <button class="btn btn-primary" onclick="nextStage()">
@@ -1957,7 +1960,11 @@
         
         function showStoryBeforeStage(stageId) {
             const story = getStoryForStage(stageId);
-            if (!story.story) return false;
+            if (!story.story) {
+                // No story for this stage, start directly
+                _actualStartStage(stageId);
+                return false;
+            }
             
             const modal = document.createElement('div');
             modal.className = 'modal-overlay active';
@@ -1968,7 +1975,7 @@
                     <p style="color: #90CAF9; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">${storyNarrative.character}</p>
                     <p style="color: white; font-size: 16px; line-height: 1.8; margin-bottom: 16px; text-align: justify;">${story.story}</p>
                     <p style="color: #FFC107; font-size: 14px; line-height: 1.6; margin-bottom: 16px; padding: 12px; background: rgba(255,193,7,0.1); border-radius: 8px;">${story.tip}</p>
-                    <button class="btn btn-primary" onclick="closeStoryModal(); startStage(${stageId})" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="closeStoryModal(); _actualStartStage(${stageId})" style="width: 100%;">
                         <span class="material-symbols-rounded">play_arrow</span>
                         شروع مرحله!
                     </button>
@@ -2159,7 +2166,13 @@
             
             const nextStageId = gameState.currentStageId + 1;
             if (nextStageId <= 6) {
-                startStage(nextStageId);
+                // Show story before next stage
+                setTimeout(() => {
+                    showStoryBeforeStage(nextStageId);
+                    if (!storyNarrative.stages[nextStageId]) {
+                        startStage(nextStageId);
+                    }
+                }, 100);
             } else {
                 showScreen('menu');
             }
@@ -2285,65 +2298,80 @@
             const stage = config.stages.find(s => s.id === stageId);
             
             if (!stage) return;
+
+            // Show story before starting (skip for tutorial)
+            if (!isTutorial && storyNarrative.stages[stageId]) {
+                showStoryBeforeStage(stageId);
+                return;  // showStoryBeforeStage will call startStage again without story
+            }
             
-                // Determine chosen difficulty explicitly (tutorial -> easy) BEFORE creating objects
-                const chosenDiff = isTutorial ? 'easy' : ((window.gameConfig && window.gameConfig.currentDifficulty) || 'easy');
-                const presetsSource = (window.gameConfig && window.gameConfig.difficultyPresets) || defaultDifficultyPresets();
-                const presetForInit = presetsSource[chosenDiff] || defaultDifficultyPresets().easy;
-                const initSpeed = (presetForInit.initialSpeed || 20) * (presetForInit.displacementFactor || 1);
+            _actualStartStage(stageId, isTutorial);
+        }
 
-                gameState = {
-                    currentStageId: stageId,
-                    currentStageData: stage,
-                    // mode flags
-                    isMarathon: (window.gameConfig && window.gameConfig.gameMode === 'marathon') || false,
-                    isMultiplayer: (window.gameConfig && window.gameConfig.gameMode === 'multiplayer') || false,
-                    score: 0,
-                    combo: 0,
-                    lastRepairTime: 0,
-                    comboExpiry: 0,
-                    comboWindow: 3000, // ms to continue a combo
-                    comboMultiplierStep: 0.2,
-                    maxComboMultiplier: 3,
-                    recentBonus: 0,
-                    waterMeter: 0,
-                    timer: isTutorial ? 60 : stage.timer,
-                    maxTimer: isTutorial ? 60 : stage.timer,
-                    objects: [],
-                    paused: false,
-                    isTutorial: isTutorial
-                };
+        function _actualStartStage(stageId, isTutorial = false) {
+            const config = window.gameConfig;
+            const stage = config.stages.find(s => s.id === stageId);
+            
+            if (!stage) return;
+            
+            // Determine chosen difficulty explicitly (tutorial -> easy) BEFORE creating objects
+            const chosenDiff = isTutorial ? 'easy' : ((window.gameConfig && window.gameConfig.currentDifficulty) || 'easy');
+            const presetsSource = (window.gameConfig && window.gameConfig.difficultyPresets) || defaultDifficultyPresets();
+            const presetForInit = presetsSource[chosenDiff] || defaultDifficultyPresets().easy;
+            const initSpeed = (presetForInit.initialSpeed || 20) * (presetForInit.displacementFactor || 1);
 
-                // Create objects
-                const objectsToCreate = isTutorial ? stage.objects.slice(0, 2) : stage.objects;
+            gameState = {
+                currentStageId: stageId,
+                currentStageData: stage,
+                // mode flags
+                isMarathon: (window.gameConfig && window.gameConfig.gameMode === 'marathon') || false,
+                isMultiplayer: (window.gameConfig && window.gameConfig.gameMode === 'multiplayer') || false,
+            score: 0,
+            combo: 0,
+            lastRepairTime: 0,
+            comboExpiry: 0,
+            comboWindow: 3000, // ms to continue a combo
+            comboMultiplierStep: 0.2,
+            maxComboMultiplier: 3,
+            recentBonus: 0,
+            waterMeter: 0,
+            timer: isTutorial ? 60 : stage.timer,
+            maxTimer: isTutorial ? 60 : stage.timer,
+            objects: [],
+            paused: false,
+            isTutorial: isTutorial
+            };
 
-                // If multiplayer mode, create two player object lists (top & bottom halves)
-                if (window.gameConfig && window.gameConfig.gameMode === 'multiplayer' && !isTutorial) {
-                    gameState.isMultiplayer = true;
-                    gameState.players = [ { id:1, score:0, combo:0, lastRepairTime:0, comboWindow:3000, comboMultiplierStep:0.2, objects:[] }, { id:2, score:0, combo:0, lastRepairTime:0, comboWindow:3000, comboMultiplierStep:0.2, objects:[] } ];
-                    const half = CANVAS_HEIGHT/2;
-                    objectsToCreate.forEach(o => {
-                        const copy1 = { ...o, state:'broken', repaired:false, vx:(Math.random()*2-1)*initSpeed, vy:(Math.random()*2-1)*initSpeed, moving:false, movementType: presetForInit.movementType || 'static', targetX:o.x, targetY: Math.max(60, Math.min(half-60, o.y * 0.45)) };
-                        const copy2 = { ...o, state:'broken', repaired:false, vx:(Math.random()*2-1)*initSpeed, vy:(Math.random()*2-1)*initSpeed, moving:false, movementType: presetForInit.movementType || 'static', targetX:o.x, targetY: Math.max(half+60, Math.min(CANVAS_HEIGHT-60, half + o.y * 0.45)) };
-                        copy1.x = copy1.targetX; copy1.y = copy1.targetY;
-                        copy2.x = copy2.targetX; copy2.y = copy2.targetY;
-                        gameState.players[0].objects.push(copy1);
-                        gameState.players[1].objects.push(copy2);
-                    });
-                } else {
-                    gameState.objects = objectsToCreate.map(obj => ({
-                        ...obj,
-                        state: 'broken',
-                        repaired: false,
-                        vx: (Math.random() * 2 - 1) * initSpeed,
-                        vy: (Math.random() * 2 - 1) * initSpeed,
-                        moving: false,
-                        movementType: presetForInit.movementType || 'static',
-                        targetX: obj.x,
-                        targetY: obj.y,
-                        nextMoveIn: (presetForInit.movementType === 'static') ? Infinity : (Math.random() * ((presetForInit.moveMaxWait || 2) - (presetForInit.moveMinWait || 1)) + (presetForInit.moveMinWait || 1))
-                    }));
-                }
+            // Create objects
+            const objectsToCreate = isTutorial ? stage.objects.slice(0, 2) : stage.objects;
+
+            // If multiplayer mode, create two player object lists (top & bottom halves)
+            if (window.gameConfig && window.gameConfig.gameMode === 'multiplayer' && !isTutorial) {
+                gameState.isMultiplayer = true;
+                gameState.players = [ { id:1, score:0, combo:0, lastRepairTime:0, comboWindow:3000, comboMultiplierStep:0.2, objects:[] }, { id:2, score:0, combo:0, lastRepairTime:0, comboWindow:3000, comboMultiplierStep:0.2, objects:[] } ];
+                const half = CANVAS_HEIGHT/2;
+                objectsToCreate.forEach(o => {
+                    const copy1 = { ...o, state:'broken', repaired:false, vx:(Math.random()*2-1)*initSpeed, vy:(Math.random()*2-1)*initSpeed, moving:false, movementType: presetForInit.movementType || 'static', targetX:o.x, targetY: Math.max(60, Math.min(half-60, o.y * 0.45)) };
+                    const copy2 = { ...o, state:'broken', repaired:false, vx:(Math.random()*2-1)*initSpeed, vy:(Math.random()*2-1)*initSpeed, moving:false, movementType: presetForInit.movementType || 'static', targetX:o.x, targetY: Math.max(half+60, Math.min(CANVAS_HEIGHT-60, half + o.y * 0.45)) };
+                    copy1.x = copy1.targetX; copy1.y = copy1.targetY;
+                    copy2.x = copy2.targetX; copy2.y = copy2.targetY;
+                    gameState.players[0].objects.push(copy1);
+                    gameState.players[1].objects.push(copy2);
+                });
+            } else {
+                gameState.objects = objectsToCreate.map(obj => ({
+                    ...obj,
+                    state: 'broken',
+                    repaired: false,
+                    vx: (Math.random() * 2 - 1) * initSpeed,
+                    vy: (Math.random() * 2 - 1) * initSpeed,
+                    moving: false,
+                    movementType: presetForInit.movementType || 'static',
+                    targetX: obj.x,
+                    targetY: obj.y,
+                    nextMoveIn: (presetForInit.movementType === 'static') ? Infinity : (Math.random() * ((presetForInit.moveMaxWait || 2) - (presetForInit.moveMinWait || 1)) + (presetForInit.moveMinWait || 1))
+                }));
+            }
 
             // Apply time multiplier to timers (tutorials keep fixed 60s)
             try {
