@@ -560,30 +560,36 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-sm);
+            gap: 4px;
             pointer-events: none;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 50;
         }
         
         .timer-circle {
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             position: relative;
         }
         
         .timer-svg {
             transform: rotate(-90deg);
+            width: 50px;
+            height: 50px;
         }
         
         .timer-bg {
             fill: none;
             stroke: rgba(255, 255, 255, 0.2);
-            stroke-width: 6;
+            stroke-width: 4;
         }
         
         .timer-progress {
             fill: none;
             stroke: white;
-            stroke-width: 6;
+            stroke-width: 4;
             stroke-linecap: round;
             transition: stroke-dashoffset var(--transition-fast) linear;
         }
@@ -593,7 +599,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 28px;
+            font-size: 18px;
             font-weight: 700;
             color: white;
         }
@@ -1443,26 +1449,26 @@
                     timeMultiplier: 1.3
                 },
                 medium: {
-                    initialSpeed: 40,
-                    accel: 60,
-                    maxSpeed: 120,
+                    initialSpeed: 120,
+                    accel: 180,
+                    maxSpeed: 360,
                     damping: 0.96,
                     displacementFactor: 1.5,
                     movementType: 'lerp',
-                    moveSpeed: 60,
+                    moveSpeed: 180,
                     moveMinWait: 1.2,
                     moveMaxWait: 2.8,
                     minMoveDistance: 120,
                     timeMultiplier: 1.0
                 },
                 hard: {
-                    initialSpeed: 60,
-                    accel: 90,
-                    maxSpeed: 180,
+                    initialSpeed: 180,
+                    accel: 270,
+                    maxSpeed: 540,
                     damping: 0.94,
                     displacementFactor: 2,
                     movementType: 'lerp',
-                    moveSpeed: 120,
+                    moveSpeed: 360,
                     moveMinWait: 0.6,
                     moveMaxWait: 1.8,
                     minMoveDistance: 160,
@@ -1646,7 +1652,7 @@
 
             // Fallback: use HTMLAudio element if WebAudio unavailable or failed
             try {
-                let url = (sounds['background_music_loop'] && sounds['background_music_loop'].info && sounds['background_music_loop'].info.url) || (window.__localAssets && window.__localAssets['background_music_loop'] && window.__localAssets['background_music_loop'].url) || 'background_music_loop.mp3';
+                let url = (sounds['background_music_loop'] && sounds['background_music_loop'].info && sounds['background_music_loop'].info.url) || (window.__localAssets && window.__localAssets['background_music_loop'] && window.__localAssets['background_music_loop'].url) || 'background_music_loop.wav';
                 const audioEl = new Audio(url);
                 audioEl.loop = true;
                 audioEl.volume = ((config.masterVolume || 1) * (config.musicVolume || 1));
