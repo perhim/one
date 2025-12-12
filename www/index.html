@@ -1790,7 +1790,7 @@
         
         function playMusicFallback(config) {
             try {
-                const url = 'water guardian X - asteocade editor.mp3';
+                const url = 'Water Guardian X - Astrocade Editor.mp3';
                 console.log('[playMusicFallback] Creating Audio element for:', url);
                 const audioEl = new Audio(url);
                 audioEl.loop = true;
@@ -3347,7 +3347,7 @@
 
             // If a standalone music file exists in the repo root, prefer it for background music
             try {
-                const audioCandidates = ['water guardian X - asteocade editor.mp3'];
+                const audioCandidates = ['Water Guardian X - Astrocade Editor.mp3'];
                 for (const candidate of audioCandidates) {
                     try {
                         const headResp = await fetch(candidate, { method: 'HEAD' });
