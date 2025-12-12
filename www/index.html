@@ -452,6 +452,7 @@
             justify-content: space-between;
             align-items: center;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+            z-index: 200;
         }
         
         .score-pill {
@@ -491,6 +492,7 @@
             box-shadow: var(--shadow-sm);
             cursor: pointer;
             transition: all var(--transition-fast) var(--ease-out);
+            z-index: 250;
         }
         
         .pause-btn:active {
@@ -1744,37 +1746,20 @@
         }
 
         function playMusic() {
+            // Stop any existing music
+            if (gameState.musicElement) {
+                try { gameState.musicElement.pause(); } catch(e){}
+                gameState.musicElement = null;
+            }
             if (gameState.musicSource) {
                 try { gameState.musicSource.stop(); } catch(e){}
                 gameState.musicSource = null;
             }
 
             const config = window.gameConfig || {};
-
-            // Try to use WebAudio if possible; resume AudioContext first (user gesture may be required)
-            if (audioContext) {
-                try {
-                    if (audioContext.state === 'suspended') {
-                        if (typeof audioContext.resume === 'function') {
-                            audioContext.resume().then(() => {
-                                console.log('[playMusic] AudioContext resumed successfully');
-                                playMusicWebAudio(config);
-                            }).catch(e => {
-                                console.warn('audioContext.resume failed:', e);
-                                playMusicFallback(config);
-                            });
-                            return;
-                        }
-                    } else {
-                        // Already running
-                        playMusicWebAudio(config);
-                        return;
-                    }
-                } catch (e) {
-                    console.warn('AudioContext resume error:', e);
-                }
-            }
+            console.log('[playMusic] Starting music with volume:', config.masterVolume, config.musicVolume);
             
+            // Always use HTMLAudio fallback for reliability
             playMusicFallback(config);
         }
         
@@ -1786,7 +1771,7 @@
                     source.buffer = sounds['background_music_loop'].buffer;
                     source.loop = true;
                     const volume = (config.masterVolume || 1) * (config.musicVolume || 1);
-                    gainNode.gain.value = Math.min(1, volume);  // Clamp volume
+                    gainNode.gain.value = Math.min(1, volume);
                     source.connect(gainNode);
                     gainNode.connect(audioContext.destination);
                     source.start(0);
@@ -1803,19 +1788,28 @@
         function playMusicFallback(config) {
             try {
                 const url = 'background_music_loop.wav';
+                console.log('[playMusicFallback] Creating Audio element for:', url);
                 const audioEl = new Audio(url);
                 audioEl.loop = true;
-                audioEl.volume = Math.min(1, (config.masterVolume || 1) * (config.musicVolume || 1));
+                audioEl.volume = Math.min(1, (config.masterVolume || 0.8) * (config.musicVolume || 0.8));
                 audioEl.muted = false;
-                audioEl.crossOrigin = 'anonymous';
-                audioEl.play().then(() => {
+                audioEl.preload = 'auto';
+                
+                // Try to play
+                const playPromise = audioEl.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        gameState.musicElement = audioEl;
+                        console.log('[playMusicFallback] Music playing successfully');
+                    }).catch(err => {
+                        console.error('[playMusicFallback] Play failed:', err && err.message);
+                    });
+                } else {
                     gameState.musicElement = audioEl;
-                    console.log('[playMusicFallback] Music started via HTMLAudio');
-                }).catch(err => {
-                    console.warn('HTMLAudio play failed:', err && err.message);
-                });
+                    console.log('[playMusicFallback] Music set (older browser)');
+                }
             } catch (e) {
-                console.warn('Failed to play background music fallback:', e);
+                console.error('Failed to play background music fallback:', e);
             }
         }
 
@@ -2231,8 +2225,12 @@
 
         // Show win screen
         function showWinScreen() {
+            console.log('[showWinScreen] Called. starsEarned:', gameState.starsEarned);
+            
             const stars = gameState.starsEarned || 1;
             const starIcons = document.querySelectorAll('#starsContainer .star-icon');
+            
+            console.log('[showWinScreen] Found', starIcons.length, 'star icons');
             
             starIcons.forEach((icon, i) => {
                 if (i < stars) {
@@ -2246,23 +2244,35 @@
             document.getElementById('waterTip').textContent = gameState.waterTip || 'آفرین! شما آب را ذخیره کردید!';
             
             // Update player statistics
-            const starsWon = gameState.stars || 0;
-            const waterSaved = (gameState.currentStage?.timer - gameState.timer) * 10 || 50;  // Estimate
+            const starsWon = gameState.starsEarned || 1;
+            const waterSaved = (gameState.timer * 10) || 50;
             playerStats.totalWaterSaved += waterSaved;
             playerStats.totalStars += starsWon;
-            if (!playerStats.stagesCompleted || gameState.currentStage?.id > playerStats.stagesCompleted) {
-                playerStats.stagesCompleted = gameState.currentStage?.id || 1;
-            }
+            playerStats.stagesCompleted = Math.max(playerStats.stagesCompleted || 0, gameState.currentStageId || 1);
             saveProgress();
             
-            document.getElementById('winModal').classList.add('active');
+            const modal = document.getElementById('winModal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('[showWinScreen] Modal shown successfully');
+            } else {
+                console.error('[showWinScreen] winModal not found!');
+            }
         }
 
         function showLoseScreen() {
+            console.log('[showLoseScreen] Called. loseReason:', gameState.loseReason);
+            
             document.getElementById('loseReason').textContent = gameState.loseReason || 'زمان تمام شد!';
             document.getElementById('loseScore').textContent = `امتیاز: ${gameState.score}`;
             
-            document.getElementById('loseModal').classList.add('active');
+            const modal = document.getElementById('loseModal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('[showLoseScreen] Modal shown successfully');
+            } else {
+                console.error('[showLoseScreen] loseModal not found!');
+            }
         }
 
         // Drawing utilities
