@@ -1190,11 +1190,23 @@
             <!-- About / Read Me Screen -->
             <div id="aboutScreen" class="screen">
                 <div class="about-header">
-                    <h2 class="about-title">درباره بازی</h2>
+                    <h2 class="about-title">مرا بخوانید 📖</h2>
                 </div>
                 <div class="about-content" style="padding:16px;">
-                    <p>
-                        این بازی توسط سرگروه عرفان رحیمی در سومین مسابقات تولید محتوای دیجیتال منطقه 5 با هدف آموزش صرفه جویی در مصرف آب برای رده سنی 4 تا 12 سال طراحی و تولید شده است. به امید روزی که فرهنگ صرفه جویی در مصرف برای فرزندان این سرزمین به یادگار بماند. یاعلی
+                    <p style="margin-bottom: 16px; line-height: 1.8; text-align: right;">
+                        <strong>🎮 نگهبان آب X</strong><br>
+                        این بازی توسط <strong>عرفان رحیمی</strong> برای <strong>سومین مسابقات تولید محتوای دیجیتال منطقه 5</strong> طراحی شده است.
+                    </p>
+                    <p style="margin-bottom: 16px; line-height: 1.8; text-align: right; background: rgba(76, 175, 80, 0.1); padding: 12px; border-right: 4px solid #4CAF50; border-radius: 4px;">
+                        <strong>🌍 هدف:</strong><br>
+                        فرهنگ‌سازی صرفه‌جویی در مصرف آب برای کودکان
+                    </p>
+                    <p style="margin-bottom: 16px; line-height: 1.8; text-align: right;">
+                        <strong>👥 رده سنی:</strong> 4 تا 12 سال<br>
+                        <strong>💡 پیام:</strong> هر قطره آب مهم است. بیایید با هم آینده را حفظ کنیم!
+                    </p>
+                    <p style="text-align: right; color: rgba(255,255,255,0.7); font-size: 14px;">
+                        یاعلی 🤲
                     </p>
                 </div>
                 <div style="display:flex; gap:8px; padding:16px;">
@@ -1816,6 +1828,33 @@
                 console.error('❌ Failed to play background music fallback:', e);
             }
         }
+        
+        function stopMusic() {
+            console.log('[stopMusic] Stopping all music...');
+            
+            // Stop HTMLAudio element
+            if (gameState.musicElement) {
+                try {
+                    gameState.musicElement.pause();
+                    gameState.musicElement.currentTime = 0;
+                    gameState.musicElement = null;
+                    console.log('[stopMusic] HTMLAudio element stopped');
+                } catch(e) {
+                    console.error('[stopMusic] Error stopping HTMLAudio:', e);
+                }
+            }
+            
+            // Stop WebAudio source
+            if (gameState.musicSource) {
+                try {
+                    gameState.musicSource.stop();
+                    gameState.musicSource = null;
+                    console.log('[stopMusic] WebAudio source stopped');
+                } catch(e) {
+                    console.error('[stopMusic] Error stopping WebAudio:', e);
+                }
+            }
+        }
 
         // UI Functions
         // ===== STATISTICS & CHALLENGE FUNCTIONS =====
@@ -2136,6 +2175,7 @@
             if (confirmed) {
                 playSound('button_click_sfx');
                 stopGameLoop();
+                stopMusic();  // ✅ STOP MUSIC!
                 // Ensure any open modal is closed and mark game finished
                 try {
                     gameState.finished = true;
@@ -2144,6 +2184,7 @@
                     const el = document.getElementById(id);
                     if (el) el.classList.remove('active');
                 });
+                console.log('[confirmExit] Going back to menu...');
                 showScreen('menu');
             } else {
                 resumeGame();
@@ -2510,6 +2551,7 @@
                     if (allRep) {
                         gameState.finished = true;
                         stopGameLoop();
+                        stopMusic();  // ✅ STOP MUSIC WHEN WIN!
                         gameState.waterTip = `بازیکن ${p+1} برنده شد!`;
                         playSound('win_fanfare');
                         setTimeout(() => showWinScreen(), 200);
@@ -2525,6 +2567,7 @@
                 console.log('[checkWinLose] All objects repaired! Opening win screen...');
                 gameState.finished = true;
                 stopGameLoop();
+                stopMusic();  // ✅ STOP MUSIC WHEN WIN!
 
                 const timePercent = gameState.timer / gameState.maxTimer;
                 const stars = timePercent > 0.5 ? 3 : timePercent > 0.2 ? 2 : 1;
@@ -2553,6 +2596,7 @@
             } else if (gameState.waterMeter >= 100) {
                 gameState.finished = true;
                 stopGameLoop();
+                stopMusic();  // ✅ STOP MUSIC WHEN LOSE!
                 gameState.loseReason = 'نشانگر آب پر شد!';
                 playSound('lose_sound');
                 setTimeout(() => showLoseScreen(), 500);
@@ -2561,6 +2605,7 @@
                 // in marathon mode timer expiry => show win screen with score
                 gameState.finished = true;
                 stopGameLoop();
+                stopMusic();  // ✅ STOP MUSIC WHEN TIME RUNS OUT!
                 if (gameState.isMarathon) {
                     playSound('win_fanfare');
                     setTimeout(() => showWinScreen(), 300);
