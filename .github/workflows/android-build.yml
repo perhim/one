@@ -51,6 +51,7 @@ jobs:
         run: |
           export ANDROID_SDK_ROOT="$RUNNER_TEMP/android-sdk"
           export GRADLE_USER_HOME="$RUNNER_TEMP/.gradle"
+          unset ANDROID_HOME
           ./gradlew assembleDebug --no-daemon --stacktrace --info 2>&1 | tee gradle-output.log || true
 
       - name: Upload Gradle log
