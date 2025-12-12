@@ -1315,7 +1315,8 @@
                             <p class="tip-text" id="waterTip">آفرین! شما آب را ذخیره کردید!</p>
                         </div>
                         <p style="color: #90CAF9; font-size: 13px; margin-top: 16px; font-style: italic; text-align: center;">
-                            💧 لطفا مرا بخوانید — هر قطره‌ای برای سیاره ما مهم است!
+                            💧 لطفا مرا بخوانید — هر قطره‌ای برای سیاره ما مهم است!<br/>
+                            <span style="font-size: 12px; color: #64B5F6;">— عرفان رحیمی</span>
                         </p>
                     </div>
                     <div class="modal-actions">
@@ -1960,22 +1961,26 @@
                 return false;
             }
             
+            console.log('[showStoryBeforeStage] Showing story for stage', stageId);
+            
             const modal = document.createElement('div');
             modal.className = 'modal-overlay active';
             modal.id = 'storyModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(4px);';
+            
             modal.innerHTML = `
-                <div class="modal-content" style="max-width: 90%; padding: 24px;">
-                    <h2 style="color: white; text-align: center; margin-bottom: 16px;">${story.title}</h2>
-                    <p style="color: #90CAF9; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">${storyNarrative.character}</p>
-                    <p style="color: white; font-size: 16px; line-height: 1.8; margin-bottom: 16px; text-align: justify;">${story.story}</p>
-                    <p style="color: #FFC107; font-size: 14px; line-height: 1.6; margin-bottom: 16px; padding: 12px; background: rgba(255,193,7,0.1); border-radius: 8px;">${story.tip}</p>
-                    <button class="btn btn-primary" onclick="closeStoryModal(); _actualStartStage(${stageId})" style="width: 100%;">
-                        <span class="material-symbols-rounded">play_arrow</span>
-                        شروع مرحله!
+                <div style="background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%); border-radius: 24px; padding: 32px; max-width: 90%; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 2px solid rgba(144,202,249,0.3);">
+                    <h2 style="color: white; text-align: center; margin-bottom: 20px; font-size: 24px; margin-top: 0;">${story.title}</h2>
+                    <p style="color: #FFD54F; font-size: 16px; line-height: 1.6; margin-bottom: 16px; font-weight: 600; text-align: center;">${storyNarrative.character}</p>
+                    <p style="color: #E0E0E0; font-size: 18px; line-height: 1.8; margin-bottom: 20px; text-align: justify;">${story.story}</p>
+                    <p style="color: #FFC107; font-size: 15px; line-height: 1.6; margin-bottom: 24px; padding: 16px; background: rgba(255,193,7,0.15); border-left: 4px solid #FFC107; border-radius: 8px;">${story.tip}</p>
+                    <button onclick="closeStoryModal(); _actualStartStage(${stageId})" style="width: 100%; padding: 14px; background: linear-gradient(90deg, #42A5F5 0%, #1E88E5 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(66,165,245,0.4);">
+                        ▶ شروع مرحله!
                     </button>
                 </div>
             `;
             document.body.appendChild(modal);
+            console.log('[showStoryBeforeStage] Story modal created and displayed');
             return true;
         }
         
