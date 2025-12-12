@@ -1589,7 +1589,7 @@
 
         // Asset loading
         async function preloadAssets() {
-            const assetIds = [
+            const imageAssets = [
                 'game_logo', 'water_drop_animation',
                 // Objects (7 types × 3 states)
                 'open_faucet_broken', 'open_faucet_repairing', 'open_faucet_repaired',
@@ -1605,14 +1605,16 @@
                 // UI
                 'water_droplet_sprite', 'water_splash_sprite',
                 'button_play', 'button_levels', 'button_tutorial', 'button_settings', 'button_pause',
-                'icon_lock', 'icon_star_empty', 'icon_star_filled',
-                // Audio
+                'icon_lock', 'icon_star_empty', 'icon_star_filled'
+            ];
+
+            const audioAssets = [
                 'water_running_loop', 'tap_repair_sfx', 'timer_warning_beep',
                 'water_meter_warning_drip', 'win_fanfare', 'lose_sound',
                 'button_click_sfx', 'background_music_loop'
             ];
 
-            const total = assetIds.length;
+            const total = imageAssets.length + audioAssets.length;
             let loaded = 0;
 
             const updateProgress = (id) => {
@@ -1625,53 +1627,36 @@
             console.log('[preloadAssets] start. total assets=', total);
 
             // Load images
-            const imagePromises = assetIds.filter(id => {
-                const asset = { type: 'image' };
-                return asset && asset.type === 'image';
-            }).map(id => {
+            const imagePromises = imageAssets.map(id => {
                 return new Promise((resolve) => {
-                    const assetInfo = { url: id + '.webp' };
-                    if (!assetInfo) {
-                        console.warn('[preloadAssets] missing assetInfo for', id);
-                        updateProgress(id);
-                        resolve();
-                        return;
-                    }
+                    const url = id + '.webp';
+                    console.log('[preloadAssets] loading image:', id, url);
                     const img = new Image();
                     img.onload = () => {
-                        assetCache[id] = { img, info: assetInfo };
+                        assetCache[id] = { img, info: { url } };
                         updateProgress(id);
                         resolve();
                     };
                     img.onerror = () => {
-                        console.error('[preloadAssets] image load error:', id, assetInfo.url);
+                        console.error('[preloadAssets] image load error:', id, url);
                         updateProgress(id);
                         resolve();
                     };
-                    img.src = assetInfo.url;
+                    img.src = url;
                 });
             });
 
             // Load audio
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const audioPromises = assetIds.filter(id => {
-                const asset = { type: 'audio' };
-                return asset && asset.type === 'audio';
-            }).map(id => {
+            const audioPromises = audioAssets.map(id => {
                 return new Promise((resolve) => {
-                    const assetInfo = { url: id + '.wav' };
-                    if (!assetInfo) {
-                        console.warn('[preloadAssets] missing audio assetInfo for', id);
-                        updateProgress(id);
-                        resolve();
-                        return;
-                    }
-                    console.log('[preloadAssets] fetching audio:', id, assetInfo.url);
-                    fetch(assetInfo.url)
+                    const url = id + '.wav';
+                    console.log('[preloadAssets] fetching audio:', id, url);
+                    fetch(url)
                         .then(response => response.arrayBuffer())
                         .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                         .then(audioBuffer => {
-                            sounds[id] = { buffer: audioBuffer, info: assetInfo };
+                            sounds[id] = { buffer: audioBuffer, info: { url } };
                             updateProgress(id);
                             resolve();
                         })
