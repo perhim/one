@@ -561,6 +561,7 @@
             align-items: center;
             justify-content: center;
             gap: var(--space-sm);
+            pointer-events: none;
         }
         
         .timer-circle {
@@ -1524,11 +1525,11 @@
 
             // Load images
             const imagePromises = assetIds.filter(id => {
-                const asset = lib.getAsset(id);
+                const asset = { type: 'image' };
                 return asset && asset.type === 'image';
             }).map(id => {
                 return new Promise((resolve) => {
-                    const assetInfo = lib.getAsset(id);
+                    const assetInfo = { url: id + '.webp' };
                     if (!assetInfo) {
                         console.warn('[preloadAssets] missing assetInfo for', id);
                         updateProgress(id);
@@ -1542,7 +1543,6 @@
                         resolve();
                     };
                     img.onerror = () => {
-                        lib.log('Failed to load image: ' + id);
                         console.error('[preloadAssets] image load error:', id, assetInfo.url);
                         updateProgress(id);
                         resolve();
@@ -1554,11 +1554,11 @@
             // Load audio
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const audioPromises = assetIds.filter(id => {
-                const asset = lib.getAsset(id);
+                const asset = { type: 'audio' };
                 return asset && asset.type === 'audio';
             }).map(id => {
                 return new Promise((resolve) => {
-                    const assetInfo = lib.getAsset(id);
+                    const assetInfo = { url: id + '.wav' };
                     if (!assetInfo) {
                         console.warn('[preloadAssets] missing audio assetInfo for', id);
                         updateProgress(id);
@@ -1575,7 +1575,6 @@
                             resolve();
                         })
                         .catch((err) => {
-                            lib.log('Failed to load audio: ' + id);
                             console.error('[preloadAssets] audio load error:', id, err && err.message);
                             updateProgress(id);
                             resolve();
