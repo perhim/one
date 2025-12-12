@@ -1372,6 +1372,28 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Confirmation Modal for Exit -->
+            <div id="confirmExitModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">آیا مطمئن هستید؟</h2>
+                    </div>
+                    <p style="text-align: center; margin: 20px 0; font-size: 16px; color: #666;">
+                        بازی را ترک کرده و به منو برمی‌گردید؟
+                    </p>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="confirmExit(true)">
+                            <span class="material-symbols-rounded">check</span>
+                            بله
+                        </button>
+                        <button class="btn btn-neutral" onclick="confirmExit(false)">
+                            <span class="material-symbols-rounded">close</span>
+                            خیر
+                        </button>
+                    </div>
+                </div>
+            </div>
             
         </div>
     </div>
@@ -1696,15 +1718,31 @@
             // Try to use WebAudio if possible; resume AudioContext first (user gesture may be required)
             if (audioContext) {
                 try {
-                    if (audioContext.state === 'suspended' && typeof audioContext.resume === 'function') {
-                        audioContext.resume().catch(e => console.warn('audioContext.resume failed:', e));
+                    if (audioContext.state === 'suspended') {
+                        if (typeof audioContext.resume === 'function') {
+                            audioContext.resume().then(() => {
+                                console.log('[playMusic] AudioContext resumed successfully');
+                                playMusicWebAudio(config);
+                            }).catch(e => {
+                                console.warn('audioContext.resume failed:', e);
+                                playMusicFallback(config);
+                            });
+                            return;
+                        }
+                    } else {
+                        // Already running
+                        playMusicWebAudio(config);
+                        return;
                     }
                 } catch (e) {
                     console.warn('AudioContext resume error:', e);
                 }
             }
-
-            // Prefer WebAudio buffer if decoded
+            
+            playMusicFallback(config);
+        }
+        
+        function playMusicWebAudio(config) {
             if (sounds['background_music_loop'] && sounds['background_music_loop'].buffer && audioContext) {
                 try {
                     const source = audioContext.createBufferSource();
@@ -1712,37 +1750,36 @@
                     source.buffer = sounds['background_music_loop'].buffer;
                     source.loop = true;
                     const volume = (config.masterVolume || 1) * (config.musicVolume || 1);
-                    gainNode.gain.value = volume;
+                    gainNode.gain.value = Math.min(1, volume);  // Clamp volume
                     source.connect(gainNode);
                     gainNode.connect(audioContext.destination);
                     source.start(0);
                     gameState.musicSource = source;
+                    console.log('[playMusicWebAudio] Music started via WebAudio');
                     return;
                 } catch (e) {
-                    console.warn('WebAudio playback failed, falling back to HTMLAudio:', e);
+                    console.warn('WebAudio playback failed:', e);
                 }
             }
-
-            // Fallback: use HTMLAudio element if WebAudio unavailable or failed
+            playMusicFallback(config);
+        }
+        
+        function playMusicFallback(config) {
             try {
-                let url = (sounds['background_music_loop'] && sounds['background_music_loop'].info && sounds['background_music_loop'].info.url) || (window.__localAssets && window.__localAssets['background_music_loop'] && window.__localAssets['background_music_loop'].url) || 'background_music_loop.wav';
+                const url = 'background_music_loop.wav';
                 const audioEl = new Audio(url);
                 audioEl.loop = true;
-                audioEl.volume = ((config.masterVolume || 1) * (config.musicVolume || 1));
+                audioEl.volume = Math.min(1, (config.masterVolume || 1) * (config.musicVolume || 1));
+                audioEl.muted = false;
+                audioEl.crossOrigin = 'anonymous';
                 audioEl.play().then(() => {
                     gameState.musicElement = audioEl;
+                    console.log('[playMusicFallback] Music started via HTMLAudio');
                 }).catch(err => {
-                    console.warn('HTMLAudio play failed (autoplay?), user interaction may be required:', err);
+                    console.warn('HTMLAudio play failed:', err && err.message);
                 });
             } catch (e) {
                 console.warn('Failed to play background music fallback:', e);
-            }
-        }
-
-        function stopMusic() {
-            if (gameState.musicSource) {
-                gameState.musicSource.stop();
-                gameState.musicSource = null;
             }
         }
 
@@ -2055,16 +2092,26 @@
 
         function quitToMenu() {
             playSound('button_click_sfx');
-            stopGameLoop();
-            // Ensure any open modal is closed and mark game finished
-            try {
-                gameState.finished = true;
-            } catch (e) {}
-            ['pauseMenu','winModal','loseModal'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.remove('active');
-            });
-            showScreen('menu');
+            document.getElementById('confirmExitModal').classList.add('active');
+        }
+
+        function confirmExit(confirmed) {
+            document.getElementById('confirmExitModal').classList.remove('active');
+            if (confirmed) {
+                playSound('button_click_sfx');
+                stopGameLoop();
+                // Ensure any open modal is closed and mark game finished
+                try {
+                    gameState.finished = true;
+                } catch (e) {}
+                ['pauseMenu','winModal','loseModal'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.remove('active');
+                });
+                showScreen('menu');
+            } else {
+                resumeGame();
+            }
         }
 
         function retryStage() {
@@ -2778,6 +2825,29 @@
                                 obj.y += (dy / dist) * step;
                             }
                         }
+                        
+                        // Collision detection with timer bar (top-right area)
+                        // Timer bar: position (CANVAS_WIDTH - 66, 16), size 50x50px
+                        const timerX = CANVAS_WIDTH - 66;
+                        const timerY = 16;
+                        const timerSize = 50;
+                        const objRadius = 40 * (obj.scale || 1);
+                        
+                        if (obj.x > timerX - objRadius && obj.x < timerX + timerSize + objRadius &&
+                            obj.y < timerY + timerSize + objRadius) {
+                            // Bounce away from timer bar
+                            const bounceAngle = Math.atan2(obj.y - timerY, obj.x - timerX);
+                            const bounceSpeed = 150;
+                            obj.x = timerX + Math.cos(bounceAngle) * (objRadius + timerSize);
+                            obj.y = timerY + Math.sin(bounceAngle) * (objRadius + timerSize);
+                            obj.moving = false;  // Stop current movement
+                            obj.nextMoveIn = 0.5;  // Resume movement soon
+                        }
+                        
+                        // Clamp to canvas bounds
+                        const margin = 40 * (obj.scale || 1);
+                        obj.x = Math.max(margin, Math.min(CANVAS_WIDTH - margin, obj.x));
+                        obj.y = Math.max(margin, Math.min(CANVAS_HEIGHT - margin, obj.y));
                     });
                 }
 
