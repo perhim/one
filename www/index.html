@@ -1078,6 +1078,14 @@
                         <span class="material-symbols-rounded">groups</span>
                         دو نفره
                     </button>
+                    <button class="btn btn-secondary" onclick="showScreen('challenge')" style="margin-top:12px;">
+                        <span class="material-symbols-rounded">local_fire_department</span>
+                        چالش روزانه
+                    </button>
+                    <button class="btn btn-secondary" onclick="showScreen('statistics')" style="margin-top:12px;">
+                        <span class="material-symbols-rounded">trending_up</span>
+                        آمار
+                    </button>
                     <button class="btn btn-warning" onclick="showScreen('tutorial')">
                         <span class="material-symbols-rounded">school</span>
                         آموزش
@@ -1178,6 +1186,63 @@
                     <p>
                         این بازی توسط سرگروه عرفان رحیمی در سومین مسابقات تولید محتوای دیجیتال منطقه 5 با هدف آموزش صرفه جویی در مصرف آب برای رده سنی 4 تا 12 سال طراحی و تولید شده است. به امید روزی که فرهنگ صرفه جویی در مصرف برای فرزندان این سرزمین به یادگار بماند. یاعلی
                     </p>
+                </div>
+                <div style="display:flex; gap:8px; padding:16px;">
+                    <button class="btn btn-neutral btn-small" onclick="showScreen('menu')">
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        بازگشت
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Statistics Screen -->
+            <div id="statisticsScreen" class="screen">
+                <div class="about-header">
+                    <h2 class="about-title">آمار شما</h2>
+                </div>
+                <div class="about-content" style="padding:16px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                        <p style="font-size:14px; color: rgba(255,255,255,0.8); margin: 8px 0;">
+                            💧 <strong>آب نجات‌یافته:</strong> <span id="totalWaterSaved">0</span> لیتر
+                        </p>
+                        <p style="font-size:14px; color: rgba(255,255,255,0.8); margin: 8px 0;">
+                            🎯 <strong>سطح‌های تکمیل‌شده:</strong> <span id="stagesCompleted">0</span>/6
+                        </p>
+                        <p style="font-size:14px; color: rgba(255,255,255,0.8); margin: 8px 0;">
+                            ⭐ <strong>ستارگان کل:</strong> <span id="totalStars">0</span>/18
+                        </p>
+                        <p style="font-size:12px; color: #4CAF50; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <strong>معادل با:</strong> <span id="waterComparison">0</span> حمام!
+                        </p>
+                    </div>
+                </div>
+                <div style="display:flex; gap:8px; padding:16px;">
+                    <button class="btn btn-neutral btn-small" onclick="showScreen('menu')">
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        بازگشت
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Challenge Screen -->
+            <div id="challengeScreen" class="screen">
+                <div class="about-header">
+                    <h2 class="about-title">چالش روزانه</h2>
+                </div>
+                <div class="about-content" style="padding:16px;">
+                    <div style="background: linear-gradient(135deg, #FF6B6B 0%, #FF9999 100%); padding: 24px; border-radius: 12px; margin-bottom: 16px;">
+                        <p style="font-size:14px; color: white; margin: 8px 0;">🔥 <strong>امروز:</strong></p>
+                        <p id="dailyChallengeText" style="font-size:16px; color: white; margin: 8px 0; font-weight: 600;">
+                            سطح 1 را در سختی Hard در زیر 40 ثانیه کامل کنید!
+                        </p>
+                        <p id="dailyChallengeReward" style="font-size:13px; color: rgba(255,255,255,0.9); margin-top: 12px;">
+                            🏆 پاداش: 5 ستاره!
+                        </p>
+                    </div>
+                    <button class="btn btn-primary" onclick="startDailyChallenge()" style="margin-top: 12px; width: 100%;">
+                        <span class="material-symbols-rounded">flash_on</span>
+                        شروع چالش
+                    </button>
                 </div>
                 <div style="display:flex; gap:8px; padding:16px;">
                     <button class="btn btn-neutral btn-small" onclick="showScreen('menu')">
@@ -1337,6 +1402,14 @@
         let currentMode = 'play';
         let gameState = {};
         let editState = { selectedObject: null, dragging: false };
+        let playerStats = {
+            totalWaterSaved: 0,  // liters
+            stagesCompleted: 0,
+            totalStars: 0,
+            lastChallengeDate: null,
+            dailyChallengeCompleted: false,
+            storyProgress: {}  // تحدث نقاط داستان
+        };
         let lastTimestamp = 0;
         let lastDelta = 0; // seconds elapsed since last frame
         let animationFrameId = null;
@@ -1674,6 +1747,172 @@
         }
 
         // UI Functions
+        // ===== STATISTICS & CHALLENGE FUNCTIONS =====
+        
+        function updateStatisticsScreen() {
+            document.getElementById('totalWaterSaved').textContent = Math.round(playerStats.totalWaterSaved);
+            document.getElementById('stagesCompleted').textContent = playerStats.stagesCompleted;
+            document.getElementById('totalStars').textContent = playerStats.totalStars;
+            
+            // Calculate bathtub equivalents (average bathtub = 150 liters)
+            const bathtubCount = Math.round(playerStats.totalWaterSaved / 150);
+            document.getElementById('waterComparison').textContent = bathtubCount;
+        }
+        
+        function generateDailyChallenge() {
+            const today = new Date().toDateString();
+            
+            // Check if challenge already generated today
+            if (playerStats.lastChallengeDate === today) {
+                return;
+            }
+            
+            playerStats.lastChallengeDate = today;
+            playerStats.dailyChallengeCompleted = false;
+            
+            // Random challenge
+            const stages = [1, 2, 3, 4, 5, 6];
+            const difficulties = ['easy', 'medium', 'hard'];
+            const randomStage = stages[Math.floor(Math.random() * stages.length)];
+            const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+            const timeLimit = 30 + Math.random() * 30;  // 30-60 seconds
+            
+            window.dailyChallenge = {
+                stage: randomStage,
+                difficulty: randomDifficulty,
+                timeLimit: Math.round(timeLimit),
+                reward: 5 + Math.floor(Math.random() * 5)  // 5-10 stars
+            };
+        }
+        
+        function updateChallengeScreen() {
+            generateDailyChallenge();
+            const challenge = window.dailyChallenge;
+            
+            const difficultyNames = { easy: 'آسان', medium: 'متوسط', hard: 'فیل افکن' };
+            document.getElementById('dailyChallengeText').textContent = 
+                `سطح ${challenge.stage} را در سختی ${difficultyNames[challenge.difficulty]} در زیر ${challenge.timeLimit} ثانیه کامل کنید!`;
+            document.getElementById('dailyChallengeReward').textContent = 
+                `🏆 پاداش: ${challenge.reward} ستاره!`;
+        }
+        
+        function startDailyChallenge() {
+            const challenge = window.dailyChallenge || {};
+            window.gameConfig.currentDifficulty = challenge.difficulty || 'easy';
+            startStage(challenge.stage || 1);
+        }
+        
+        function saveProgress() {
+            // Save to localStorage
+            try {
+                localStorage.setItem('playerStats', JSON.stringify(playerStats));
+            } catch (e) {
+                console.warn('Could not save progress:', e);
+            }
+        }
+        
+        function loadProgress() {
+            // Load from localStorage
+            try {
+                const saved = localStorage.getItem('playerStats');
+                if (saved) {
+                    playerStats = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.warn('Could not load progress:', e);
+            }
+        }
+        
+        // Load progress on startup
+        loadProgress();
+
+        // ===== STORY & CHARACTER SYSTEM =====
+        const storyNarrative = {
+            character: '💧 قطره جادویی',
+            intro: `سلام! من قطره جادویی هستم. من هزاران سال است که در چرخه آب زمین حرکت می‌کنم.
+            
+            اما مشکلی پیش آمد... برخی از مردم آب را بی‌دقت تلف می‌کنند! من نمی‌توانم تنها این مسئله را حل کنم.
+            
+            کمکم کن تا نشت‌های آب را تعمیر کنیم و آب را برای نسل‌های آینده محفوظ نگاه داریم!`,
+            stages: {
+                1: {
+                    title: '🏠 آشپزخانه',
+                    story: `قطره جادویی می‌گوید: "آشپزخانه اول جا است! یک شیر نشت‌کننده و لوله‌های شکسته اینجا را آلوده کرده‌اند. اگر تنها یک شیر طول بکشد نشت کند، می‌تواند یک روز میلیون لیتر آب تلف شود!"`,
+                    tip: '💡 تیپ: سریع عمل کنید! هرچه سریع‌تر تعمیر کنید، بیشتر آب نجات می‌دهید!'
+                },
+                2: {
+                    title: '🌳 حیاط',
+                    story: `قطره جادویی می‌گوید: "اینجا حیاط است! شیر باغ شب و روز نشت می‌کند و مردم به آن توجه نمی‌دهند. یک دستگاه باغ‌چه‌ریزی شکسته نیز آب‌ها را به هدر می‌دهد."`,
+                    tip: '💡 تیپ: در هر جای خانه می‌تواند نشت وجود داشته باشد. دقت کنید!'
+                },
+                3: {
+                    title: '🛁 حمام',
+                    story: `قطره جادویی می‌گوید: "حمام جایی است که بیشتر آب تلف می‌شود! دوش نشت‌کننده و سرویس بهداشتی‌های خراب می‌تواند در ماه هزار لیتر آب تلف کند!"`,
+                    tip: '💡 تیپ: در حمام به‌خصوص دقت کنید — این جای مهم است!'
+                },
+                4: {
+                    title: '🌤️ پارک',
+                    story: `قطره جادویی می‌گوید: "پارک‌های عمومی هم مهم هستند! برخی از نشت‌های پیدا شده در سایت‌های عمومی سال‌ها ترمیم نمی‌شوند!"`,
+                    tip: '💡 تیپ: جاهای عمومی نیاز به توجه دارند. خود را همچون یک قهرمان احساس کنید!'
+                },
+                5: {
+                    title: '🏫 مدرسه',
+                    story: `قطره جادویی می‌گوید: "مدارس کانون علم و دانش هستند! اما بسیاری از مدارس نشت‌های آب دارند. بیاید این مدرسه را کمک کنیم!"`,
+                    tip: '💡 تیپ: آموزش به کودکان درباره صرفه‌جویی آب بسیار مهم است!'
+                },
+                6: {
+                    title: '🌿 گلخانه',
+                    story: `قطره جادویی می‌گوید: "نهایتاً ما به گلخانه رسیدیم — جایی که گیاهان و درختان نیاز به آب تمیز دارند. این آخرین مرحله است! بیاید با هم جنگ را برنده کنیم!"`,
+                    tip: '💡 تیپ: تو این را می‌توانی! هر قطره برای طبیعت مهم است!'
+                }
+            },
+            ending: `🌟 آفرین! تو یک قهرمان نجات دهنده آب هستی!
+
+قطره جادویی گفت: "شما تمام این مرحله‌ها را سپری کردید و هزاران لیتر آب را نجات دادید! 
+
+یاد داشته باشید: صرفه‌جویی در مصرف آب تنها برای مسابقات نیست — این برای خود کره زمین مهم است.
+
+هر روز کوچک اعمال صرفه‌جویی انجام دهید و به دیگران یاد دهید!"`,
+            facts: [
+                '💧 تصفیه یک لیتر آب می‌تواند 700 لیتر آب طبیعی مصرف کند!',
+                '🚿 یک دوش 5 دقیقه‌ای حدود 100 لیتر آب مصرف می‌کند.',
+                '🔧 یک شیر نشت‌کننده می‌تواند ساالانه 35000 لیتر آب تلف کند!',
+                '🌍 فقط 3% از آب زمین آب شیرین است و ما باید از آن محافظت کنیم.'
+            ]
+        };
+        
+        function getStoryForStage(stageId) {
+            return storyNarrative.stages[stageId] || {};
+        }
+        
+        function showStoryBefore Stage(stageId) {
+            const story = getStoryForStage(stageId);
+            if (!story.story) return false;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.id = 'storyModal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 90%; padding: 24px;">
+                    <h2 style="color: white; text-align: center; margin-bottom: 16px;">${story.title}</h2>
+                    <p style="color: #90CAF9; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">${storyNarrative.character}</p>
+                    <p style="color: white; font-size: 16px; line-height: 1.8; margin-bottom: 16px; text-align: justify;">${story.story}</p>
+                    <p style="color: #FFC107; font-size: 14px; line-height: 1.6; margin-bottom: 16px; padding: 12px; background: rgba(255,193,7,0.1); border-radius: 8px;">${story.tip}</p>
+                    <button class="btn btn-primary" onclick="closeStoryModal(); startStage(${stageId})" style="width: 100%;">
+                        <span class="material-symbols-rounded">play_arrow</span>
+                        شروع مرحله!
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            return true;
+        }
+        
+        function closeStoryModal() {
+            const modal = document.getElementById('storyModal');
+            if (modal) modal.remove();
+        }
+
         function showScreen(screenId) {
             playSound('button_click_sfx');
             
@@ -1691,9 +1930,13 @@
                 screen.classList.add('active');
                 currentScreen = screenId;
                 
-                // Special handling for stage map
+                // Special handling for different screens
                 if (screenId && screenId.toLowerCase() === 'stagemap') {
                     populateStageMap();
+                } else if (screenId && screenId.toLowerCase() === 'statistics') {
+                    updateStatisticsScreen();
+                } else if (screenId && screenId.toLowerCase() === 'challenge') {
+                    updateChallengeScreen();
                 }
             }
         }
@@ -1735,7 +1978,10 @@
             // entering stage map and choosing a stage implies single-player run
             if (!window.gameConfig) window.gameConfig = {};
             window.gameConfig.gameMode = 'single';
-            startStage(stageId);
+            // Show story before starting
+            if (!showStoryBefore Stage(stageId)) {
+                startStage(stageId);
+            }
         }
 
         function startTutorial() {
@@ -1905,6 +2151,16 @@
             
             document.getElementById('finalScore').textContent = `امتیاز: ${gameState.score}`;
             document.getElementById('waterTip').textContent = gameState.waterTip || 'آفرین! شما آب را ذخیره کردید!';
+            
+            // Update player statistics
+            const starsWon = gameState.stars || 0;
+            const waterSaved = (gameState.currentStage?.timer - gameState.timer) * 10 || 50;  // Estimate
+            playerStats.totalWaterSaved += waterSaved;
+            playerStats.totalStars += starsWon;
+            if (!playerStats.stagesCompleted || gameState.currentStage?.id > playerStats.stagesCompleted) {
+                playerStats.stagesCompleted = gameState.currentStage?.id || 1;
+            }
+            saveProgress();
             
             document.getElementById('winModal').classList.add('active');
         }
