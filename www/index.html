@@ -202,6 +202,7 @@
             color: white;
             text-align: center;
             line-height: 1.2;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             margin-bottom: var(--space-md);
         }
         
@@ -397,13 +398,2600 @@
             gap: var(--space-md);
             margin-top: var(--space-lg);
         }
-        /* (file truncated in this copy to save space) */
+        
+        .tutorial-dots {
+            display: flex;
+            gap: var(--space-xs);
+        }
+        
+        .tutorial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all var(--transition-fast) var(--ease-out);
+        }
+        
+        .tutorial-dot.active {
+            background: white;
+            width: 32px;
+            border-radius: 6px;
+        }
+        
+        /* ============================================
+           GAMEPLAY HUD
+           ============================================ */
+        #gameplayHUD {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-md);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            display: none;
+            flex-direction: column;
+            gap: var(--space-sm);
+            pointer-events: none;
+        }
+        
+        #gameplayHUD.active {
+            display: flex;
+        }
+        
+        #gameplayHUD > * {
+            pointer-events: auto;
+        }
+        
+        .hud-top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+        }
+        
+        .score-pill {
+            background: var(--color-glass);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--color-glass-border);
+            border-radius: 24px;
+            padding: var(--space-xs) var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .score-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .score-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .pause-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--color-glass);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--color-glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast) var(--ease-out);
+        }
+        
+        .pause-btn:active {
+            transform: scale(0.9);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .pause-btn .material-symbols-rounded {
+            font-size: 32px;
+            color: white;
+        }
+        
+        .water-meter-container {
+            background: var(--color-glass);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--color-glass-border);
+            border-radius: 16px;
+            padding: var(--space-md);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .meter-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--space-xs);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .meter-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .meter-bar {
+            height: 48px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3 0%, #FFC107 50%, #FF5722 100%);
+            border-radius: 12px;
+            transition: width var(--transition-normal) var(--ease-out);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .meter-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        .timer-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+        
+        .timer-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .timer-svg {
+            transform: rotate(-90deg);
+        }
+        
+        .timer-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 6;
+        }
+        
+        .timer-progress {
+            fill: none;
+            stroke: white;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset var(--transition-fast) linear;
+        }
+        
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        /* ============================================
+           MODALS & OVERLAYS
+           ============================================ */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn var(--transition-normal) var(--ease-out);
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: var(--space-xl);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp var(--transition-normal) var(--ease-out);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .modal-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--color-success);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .modal-title.danger {
+            color: var(--color-danger);
+        }
+        
+        .modal-body {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .stars-container {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin: var(--space-lg) 0;
+        }
+        
+        .star-icon {
+            font-size: 64px;
+            color: #FFC107;
+            animation: popIn var(--transition-slow) var(--ease-bounce);
+        }
+        
+        .star-icon.empty {
+            color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .star-icon:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .star-icon:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin: var(--space-md) 0;
+        }
+        
+        .tip-box {
+            background: var(--color-neutral-light);
+            border-left: 4px solid var(--color-primary);
+            border-radius: 12px;
+            padding: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+        
+        .tip-icon {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .tip-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-neutral-dark);
+        }
+        
+        .reason-text {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-neutral-mid);
+            margin: var(--space-md) 0;
+        }
+        
+        .encouragement-text {
+            text-align: center;
+            font-size: 18px;
+            color: var(--color-neutral-mid);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        /* ============================================
+           PAUSE MENU
+           ============================================ */
+        #pauseMenu .modal-content {
+            max-width: 400px;
+        }
+        
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn {
+            min-height: 96px;
+            padding: 0 var(--space-lg);
+            border: none;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast) var(--ease-out);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width var(--transition-normal) var(--ease-out), 
+                        height var(--transition-normal) var(--ease-out);
+        }
+        
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-primary {
+            background: var(--color-success);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-success-hover);
+            box-shadow: var(--shadow-md), var(--glow-success);
+        }
+        
+        .btn-secondary {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-primary-hover);
+            box-shadow: var(--shadow-md), var(--glow-primary);
+        }
+        
+        .btn-tertiary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-tertiary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-warning {
+            background: var(--color-warning);
+            color: var(--color-neutral-dark);
+        }
+
+        /* Difficulty button colors */
+        #diff-easy { background: #4CAF50; color: white; }
+        #diff-medium { background: #FFC107; color: #222; }
+        #diff-hard { background: #FF5722; color: white; }
+
+        /* Mode button visuals */
+        #mode-single { background: var(--color-primary); color: white; }
+        #mode-marathon { background: #6a1b9a; color: white; }
+        #mode-multiplayer { background: #1976D2; color: white; }
+
+        .btn.selected { box-shadow: var(--shadow-md); transform: scale(1.02); border: 2px solid rgba(255,255,255,0.12); }
+        
+        .btn-neutral {
+            background: var(--color-neutral-mid);
+            color: white;
+        }
+        
+        .btn-small {
+            min-height: 64px;
+            font-size: 16px;
+            padding: 0 var(--space-md);
+        }
+        
+        .btn .material-symbols-rounded {
+            font-size: 28px;
+        }
+        
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* ============================================
+           REDUCED MOTION
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .pulse {
+            animation: pulse 1s ease-in-out infinite;
+        }
+        /* Readme/About button styles */
+        .readme-container {
+            text-align: center;
+            margin-top: 18px;
+        }
+        .readme-btn {
+            display: inline-block;
+            background: linear-gradient(135deg,#2b8cff,#6f5ef8);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(43,140,255,0.18), 0 2px 6px rgba(0,0,0,0.15);
+            cursor: pointer;
+            min-width: 260px;
+            max-width: 80%;
+            text-align: center;
+        }
+        .readme-btn .material-symbols-rounded { vertical-align: middle; margin-left:8px }
+
+        /* About screen card */
+        #aboutScreen .about-content {
+            max-width: 760px;
+            margin: 24px auto;
+            background: rgba(255,255,255,0.06);
+            padding: 20px 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            text-align: right;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        #aboutScreen .about-title { text-align:center; margin-top:12px }
+        /* Combo & bonus styles */
+        .combo-pill {
+            background: linear-gradient(90deg,#ffcf33,#ff9a33);
+            color: #222;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap:8px;
+        }
+        .bonus-popup {
+            position: absolute;
+            right: 50%;
+            transform: translateX(50%);
+            top: 80px;
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            z-index: 2000;
+        }
     </style>
 </head>
 <body>
-    <!-- Please open the project root version for full source. This index.html is a copy of the game's `code.html` used for packaging. -->
-    <div style="padding:20px; color:#fff; background:#1976D2; font-family:Poppins, sans-serif;">
-        Water Guardian X - packaged web assets
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-text">در حال بارگذاری نگهبان آب X...</div>
+        <div class="loading-bar">
+            <div id="loadingProgress" class="loading-progress"></div>
+        </div>
     </div>
+    
+    <!-- Game Container -->
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- UI Overlay -->
+        <div id="uiOverlay">
+            
+            <!-- Start Screen -->
+            <div id="startScreen" class="screen">
+                        <div class="logo-container">
+                            <h1 class="game-logo">نگهبان<br>آب X</h1>
+                            <p class="game-subtitle">آب را حفظ کن، آینده را حفظ کن</p>
+                            <div class="water-drop-animation">💧</div>
+                        </div>
+                        <button class="btn btn-primary" onclick="showScreen('menu')">
+                            <span class="material-symbols-rounded">play_arrow</span>
+                            شروع بازی
+                        </button>
+
+                        <!-- difficulty moved to menu screen -->
+            </div>
+            
+            <!-- Main Menu Screen -->
+            <div id="menuScreen" class="screen">
+                <div class="menu-header">
+                    <h1 class="menu-title">نگهبان آب X</h1>
+                </div>
+                <div class="menu-buttons">
+                    <button class="btn btn-primary" onclick="showScreen('stageMap')">
+                        <span class="material-symbols-rounded">play_circle</span>
+                        بازی کن
+                    </button>
+                    <!-- 'مراحل' button removed as requested -->
+                    <!-- Enable sound button -->
+                    
+
+                    <button class="btn btn-secondary" id="mode-marathon" onclick="startMarathon()" style="margin-top:12px;">
+                        <span class="material-symbols-rounded">whatshot</span>
+                        ماراتن
+                    </button>
+                    <button class="btn btn-secondary" id="mode-multiplayer" onclick="startMultiplayer()" style="margin-top:12px;">
+                        <span class="material-symbols-rounded">groups</span>
+                        دو نفره
+                    </button>
+                    <button class="btn btn-warning" onclick="showScreen('tutorial')">
+                        <span class="material-symbols-rounded">school</span>
+                        آموزش
+                    </button>
+                </div>
+                <div class="readme-container">
+                    <button class="readme-btn" onclick="showScreen('about')">
+                        <span class="material-symbols-rounded">info</span>
+                        مرا بخوانید
+                    </button>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Stage Map Screen -->
+            <div id="stageMapScreen" class="screen">
+                <div class="stage-map-header">
+                    <h2 class="stage-map-title">انتخاب مرحله</h2>
+                </div>
+                <div style="display:flex; gap:12px; align-items:center; margin:12px 0; justify-content:center;">
+                    <div style="font-weight:600;">سطح سختی:</div>
+                    <button class="btn" id="diff-easy" onclick="setDifficulty('easy')">ساده</button>
+                    <button class="btn" id="diff-medium" onclick="setDifficulty('medium')">مردونه</button>
+                    <button class="btn" id="diff-hard" onclick="setDifficulty('hard')">فیل افکن</button>
+                </div>
+                <div class="stage-list" id="stageList">
+                    <!-- Stages will be populated by JavaScript -->
+                </div>
+                <button class="btn btn-neutral btn-small" onclick="showScreen('menu')">
+                    <span class="material-symbols-rounded">arrow_back</span>
+                    بازگشت
+                </button>
+            </div>
+            
+            <!-- Tutorial Screen -->
+            <div id="tutorialScreen" class="screen">
+                <div class="tutorial-header">
+                    <h2 class="tutorial-title">چگونگی بازی</h2>
+                </div>
+                <div class="tutorial-content">
+                    <div class="tutorial-step active" data-step="0">
+                        <div class="tutorial-icon">
+                            <span class="material-symbols-rounded">touch_app</span>
+                        </div>
+                        <p class="tutorial-text">روی اشیاء نشت‌کننده ضربه بزنید تا تعمیر شوند و از هدررفت آب جلوگیری کنید!</p>
+                    </div>
+                    <div class="tutorial-step" data-step="1">
+                        <div class="tutorial-icon">
+                            <span class="material-symbols-rounded">speed</span>
+                        </div>
+                        <p class="tutorial-text">سریع عمل کنید! هر تعمیر +10 امتیاز می‌دهد.</p>
+                    </div>
+                    <div class="tutorial-step" data-step="2">
+                        <div class="tutorial-icon">
+                            <span class="material-symbols-rounded">water_drop</span>
+                        </div>
+                        <p class="tutorial-text">نشانگر آب را زیر نظر داشته باشید — اجازه ندهید به 100% برسد!</p>
+                    </div>
+                    <div class="tutorial-step" data-step="3">
+                        <div class="tutorial-icon">
+                            <span class="material-symbols-rounded">timer</span>
+                        </div>
+                        <p class="tutorial-text">تمام تعمیرات را قبل از اتمام زمان کامل کنید!</p>
+                    </div>
+                    <div class="tutorial-nav">
+                        <button class="btn btn-tertiary btn-small" onclick="prevTutorialStep()" id="tutorialPrevBtn">
+                            <span class="material-symbols-rounded">arrow_back</span>
+                        </button>
+                        <div class="tutorial-dots">
+                            <div class="tutorial-dot active"></div>
+                            <div class="tutorial-dot"></div>
+                            <div class="tutorial-dot"></div>
+                            <div class="tutorial-dot"></div>
+                        </div>
+                        <button class="btn btn-tertiary btn-small" onclick="nextTutorialStep()" id="tutorialNextBtn">
+                            <span class="material-symbols-rounded">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <button class="btn btn-primary" onclick="startTutorial()">
+                        <span class="material-symbols-rounded">play_arrow</span>
+                        شروع آموزش
+                    </button>
+                    <button class="btn btn-neutral btn-small" onclick="showScreen('menu')">
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        بازگشت
+                    </button>
+                </div>
+            </div>
+
+            <!-- About / Read Me Screen -->
+            <div id="aboutScreen" class="screen">
+                <div class="about-header">
+                    <h2 class="about-title">درباره بازی</h2>
+                </div>
+                <div class="about-content" style="padding:16px;">
+                    <p>
+                        این بازی توسط سرگروه عرفان رحیمی در سومین مسابقات تولید محتوای دیجیتال منطقه 5 با هدف آموزش صرفه جویی در مصرف آب برای رده سنی 4 تا 12 سال طراحی و تولید شده است. به امید روزی که فرهنگ صرفه جویی در مصرف برای فرزندان این سرزمین به یادگار بماند. یاعلی
+                    </p>
+                </div>
+                <div style="display:flex; gap:8px; padding:16px;">
+                    <button class="btn btn-neutral btn-small" onclick="showScreen('menu')">
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        بازگشت
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Gameplay HUD -->
+            <div id="gameplayHUD">
+                <div class="hud-top-bar">
+                    <div class="score-pill">
+                        <span class="score-label">امتیاز</span>
+                        <span class="score-value" id="scoreValue">0</span>
+                    </div>
+                    <div class="combo-pill" id="comboPill" style="display:none; margin-inline-start:12px;">
+                        <span style="font-weight:700;">کومبو</span>
+                        <span id="comboCount">x1</span>
+                    </div>
+                    <div id="bonusPopup" class="bonus-popup" style="display:none;">+0</div>
+                    <div id="difficultyLabel" style="margin-inline-start:12px; font-weight:700;">سطح: -</div>
+                    <button class="pause-btn" onclick="pauseGame()">
+                        <span class="material-symbols-rounded">pause</span>
+                    </button>
+                </div>
+                
+                <div class="timer-display">
+                    <div class="timer-circle">
+                        <svg class="timer-svg" width="80" height="80">
+                            <circle class="timer-bg" cx="40" cy="40" r="36"></circle>
+                            <circle class="timer-progress" cx="40" cy="40" r="36" 
+                                    stroke-dasharray="226.19" stroke-dashoffset="0" id="timerProgress"></circle>
+                        </svg>
+                        <div class="timer-text" id="timerText">30</div>
+                    </div>
+                </div>
+                
+                <div class="water-meter-container">
+                    <div class="meter-label">
+                        <span>نشانگر آب</span>
+                        <span class="meter-value" id="meterValue">0%</span>
+                    </div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="meterFill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Win Modal -->
+            <div id="winModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">مرحله کامل شد!</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="stars-container" id="starsContainer">
+                            <span class="material-symbols-rounded star-icon">star</span>
+                            <span class="material-symbols-rounded star-icon">star</span>
+                            <span class="material-symbols-rounded star-icon">star</span>
+                        </div>
+                        <div class="score-display" id="finalScore">امتیاز: 0</div>
+                        <div class="tip-box">
+                            <div class="tip-icon">
+                                <span class="material-symbols-rounded">lightbulb</span>
+                                <span>نکته صرفه‌جویی در آب</span>
+                            </div>
+                            <p class="tip-text" id="waterTip">آفرین! شما آب را ذخیره کردید!</p>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="nextStage()">
+                            <span class="material-symbols-rounded">arrow_forward</span>
+                            مرحله بعدی
+                        </button>
+                        <button class="btn btn-neutral btn-small" onclick="quitToMenu()">
+                            <span class="material-symbols-rounded">home</span>
+                            منو
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lose Modal -->
+            <div id="loseModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title danger">دوباره تلاش کنید!</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="reason-text" id="loseReason">زمان تمام شد!</p>
+                        <p class="encouragement-text">می‌توانید انجامش دهید! دوباره امتحان کنید!</p>
+                        <div class="score-display" id="loseScore">امتیاز: 0</div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="retryStage()">
+                            <span class="material-symbols-rounded">replay</span>
+                            تلاش مجدد
+                        </button>
+                        <button class="btn btn-neutral btn-small" onclick="quitToMenu()">
+                            <span class="material-symbols-rounded">home</span>
+                            منو
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pause Menu -->
+            <div id="pauseMenu" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">PAUSED</h2>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="resumeGame()">
+                            <span class="material-symbols-rounded">play_arrow</span>
+                            ادامه
+                        </button>
+                        <button class="btn btn-secondary" onclick="restartStage()">
+                            <span class="material-symbols-rounded">replay</span>
+                            شروع مجدد
+                        </button>
+                        <button class="btn btn-neutral btn-small" onclick="quitToMenu()">
+                            <span class="material-symbols-rounded">home</span>
+                            منو
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        /* ==================================================
+         * GAME OVERVIEW: Water Guardian X - Mobile Water-Saving Action Game
+         * 
+         * A fast-paced tapping game where players repair water leaks across 6 environments
+         * before a water meter reaches 100% and a timer expires.
+         * 
+         * Core Mechanics:
+         * - Tap leaking objects to repair them (+10 points)
+         * - Water meter rises continuously (1-3% every 0.5s)
+         * - Timer counts down (30-45s per stage)
+         * - Win: Repair all objects before meter hits 100% or timer expires
+         * 
+         * Edit Mode: Modify object positions, types, scales, and stage settings
+         * Play Mode: Full gameplay with all mechanics active
+         * ==================================================
+         */
+
+        // Global variables
+        let canvas, ctx;
+        let assetCache = {};
+        let audioContext, sounds = {};
+        let currentScreen = 'loading';
+        let currentMode = 'play';
+        let gameState = {};
+        let editState = { selectedObject: null, dragging: false };
+        let lastTimestamp = 0;
+        let lastDelta = 0; // seconds elapsed since last frame
+        let animationFrameId = null;
+        let waterMeterInterval = null;
+        let timerInterval = null;
+        let currentTutorialStep = 0;
+
+        // Constants
+        const CANVAS_WIDTH = 720;
+        const CANVAS_HEIGHT = 1280;
+        const OBJECT_TYPES = [
+            'open_faucet', 'dropping_hose', 'cracked_pipe', 'running_shower',
+            'leaking_cooler', 'yard_tap', 'overflowing_tank'
+        ];
+
+        // Difficulty helpers
+        function getDifficultyPreset() {
+            // tutorial always uses easy
+            if (gameState && gameState.isTutorial) {
+                return (window.gameConfig && window.gameConfig.difficultyPresets && window.gameConfig.difficultyPresets.easy) || defaultDifficultyPresets().easy;
+            }
+
+            const diff = (window.gameConfig && window.gameConfig.currentDifficulty) || 'easy';
+            const presets = (window.gameConfig && window.gameConfig.difficultyPresets) || defaultDifficultyPresets();
+            return presets[diff] || presets.easy;
+        }
+
+        function setDifficulty(diff) {
+            if (!window.gameConfig) window.gameConfig = {};
+            window.gameConfig.currentDifficulty = diff;
+            // persist selection immediately
+            persistDifficulty(diff);
+            // update UI buttons
+            ['easy','medium','hard'].forEach(d => {
+                const id = d==='easy'?'diff-easy':d==='medium'?'diff-medium':'diff-hard';
+                const el = document.getElementById(id);
+                if (!el) return;
+                if ((d === 'easy' && diff==='easy') || (d==='medium' && diff==='medium') || (d==='hard' && diff==='hard')) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        }
+
+        function setGameMode(mode) {
+            if (!window.gameConfig) window.gameConfig = {};
+            window.gameConfig.gameMode = mode;
+            try { if (typeof localStorage !== 'undefined' && mode !== 'single') localStorage.setItem('wgx_gameMode', mode); } catch(e){}
+            // update UI
+            ['mode-single','mode-marathon','mode-multiplayer'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return; el.classList.remove('selected');
+            });
+            const sel = document.getElementById(mode === 'marathon' ? 'mode-marathon' : mode === 'multiplayer' ? 'mode-multiplayer' : 'mode-single');
+            if (sel) sel.classList.add('selected');
+        }
+        function startMarathon() {
+            setGameMode('marathon');
+            // immediate start of marathon: begin first stage in marathon rules
+            try { startStage(1); } catch (e) { console.warn('startMarathon error:', e); }
+        }
+
+        function startMultiplayer() {
+            setGameMode('multiplayer');
+            // simple entry to multiplayer: start first stage with multiplayer flag
+            try {
+                if (!window.gameConfig) window.gameConfig = {};
+                startStage(1);
+                // mark multiplayer on gameState when created in startStage
+            } catch (e) { console.warn('startMultiplayer error:', e); }
+        }
+
+        function spawnMarathonObject() {
+            try {
+                const types = OBJECT_TYPES;
+                const type = types[Math.floor(Math.random() * types.length)];
+                const x = Math.random() * (CANVAS_WIDTH - 160) + 80;
+                const y = Math.random() * (CANVAS_HEIGHT - 200) + 100;
+                const newObj = { type: type, x: x, y: y, scale: 0.9 + Math.random() * 0.4, id: 'm_' + Date.now() + '_' + Math.floor(Math.random()*1000), state: 'broken', repaired: false, vx:0, vy:0, moving:false };
+                if (!gameState.objects) gameState.objects = [];
+                gameState.objects.push(newObj);
+            } catch (e) { console.warn('spawnMarathonObject failed:', e); }
+        }
+
+        // Persist difficulty selection so it survives reloads
+        function persistDifficulty(diff) {
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem('wgx_difficulty', diff);
+                }
+            } catch (e) {
+                console.warn('Could not persist difficulty to localStorage:', e);
+            }
+        }
+
+        function defaultDifficultyPresets() {
+            return {
+                easy: {
+                    initialSpeed: 20,
+                    accel: 30,
+                    maxSpeed: 60,
+                    damping: 0.98,
+                    displacementFactor: 1,
+                    movementType: 'static',
+                    moveSpeed: 0,
+                    moveMinWait: 9999,
+                    moveMaxWait: 9999,
+                    minMoveDistance: 0,
+                    timeMultiplier: 1.3
+                },
+                medium: {
+                    initialSpeed: 40,
+                    accel: 60,
+                    maxSpeed: 120,
+                    damping: 0.96,
+                    displacementFactor: 1.5,
+                    movementType: 'lerp',
+                    moveSpeed: 60,
+                    moveMinWait: 1.2,
+                    moveMaxWait: 2.8,
+                    minMoveDistance: 120,
+                    timeMultiplier: 1.0
+                },
+                hard: {
+                    initialSpeed: 60,
+                    accel: 90,
+                    maxSpeed: 180,
+                    damping: 0.94,
+                    displacementFactor: 2,
+                    movementType: 'lerp',
+                    moveSpeed: 120,
+                    moveMinWait: 0.6,
+                    moveMaxWait: 1.8,
+                    minMoveDistance: 160,
+                    timeMultiplier: 0.7
+                }
+            };
+        }
+
+        // Mode helpers
+        function isMarathon() {
+            try {
+                return !!(window.gameConfig && (window.gameConfig.gameMode === 'marathon' || window.gameConfig.marathon === true));
+            } catch (e) { return false; }
+        }
+
+        // Initialize canvas
+        function initCanvas() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            canvas.width = CANVAS_WIDTH;
+            canvas.height = CANVAS_HEIGHT;
+        }
+
+        // Asset loading
+        async function preloadAssets() {
+            const assetIds = [
+                'game_logo', 'water_drop_animation',
+                // Objects (7 types × 3 states)
+                'open_faucet_broken', 'open_faucet_repairing', 'open_faucet_repaired',
+                'dropping_hose_broken', 'dropping_hose_repairing', 'dropping_hose_repaired',
+                'cracked_pipe_broken', 'cracked_pipe_repairing', 'cracked_pipe_repaired',
+                'running_shower_broken', 'running_shower_repairing', 'running_shower_repaired',
+                'leaking_cooler_broken', 'leaking_cooler_repairing', 'leaking_cooler_repaired',
+                'yard_tap_broken', 'yard_tap_repairing', 'yard_tap_repaired',
+                'overflowing_tank_broken', 'overflowing_tank_repairing', 'overflowing_tank_repaired',
+                // Backgrounds
+                'kitchen_background', 'yard_background', 'bathroom_background',
+                'park_background', 'school_background', 'greenhouse_background',
+                // UI
+                'water_droplet_sprite', 'water_splash_sprite',
+                'button_play', 'button_levels', 'button_tutorial', 'button_settings', 'button_pause',
+                'icon_lock', 'icon_star_empty', 'icon_star_filled',
+                // Audio
+                'water_running_loop', 'tap_repair_sfx', 'timer_warning_beep',
+                'water_meter_warning_drip', 'win_fanfare', 'lose_sound',
+                'button_click_sfx', 'background_music_loop'
+            ];
+
+            const total = assetIds.length;
+            let loaded = 0;
+
+            const updateProgress = (id) => {
+                loaded++;
+                const progress = (loaded / total) * 100;
+                document.getElementById('loadingProgress').style.width = progress + '%';
+                console.log('[preloadAssets] loaded:', id, Math.round(progress) + '%', `(${loaded}/${total})`);
+            };
+
+            console.log('[preloadAssets] start. total assets=', total);
+
+            // Load images
+            const imagePromises = assetIds.filter(id => {
+                const asset = lib.getAsset(id);
+                return asset && asset.type === 'image';
+            }).map(id => {
+                return new Promise((resolve) => {
+                    const assetInfo = lib.getAsset(id);
+                    if (!assetInfo) {
+                        console.warn('[preloadAssets] missing assetInfo for', id);
+                        updateProgress(id);
+                        resolve();
+                        return;
+                    }
+                    const img = new Image();
+                    img.onload = () => {
+                        assetCache[id] = { img, info: assetInfo };
+                        updateProgress(id);
+                        resolve();
+                    };
+                    img.onerror = () => {
+                        lib.log('Failed to load image: ' + id);
+                        console.error('[preloadAssets] image load error:', id, assetInfo.url);
+                        updateProgress(id);
+                        resolve();
+                    };
+                    img.src = assetInfo.url;
+                });
+            });
+
+            // Load audio
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const audioPromises = assetIds.filter(id => {
+                const asset = lib.getAsset(id);
+                return asset && asset.type === 'audio';
+            }).map(id => {
+                return new Promise((resolve) => {
+                    const assetInfo = lib.getAsset(id);
+                    if (!assetInfo) {
+                        console.warn('[preloadAssets] missing audio assetInfo for', id);
+                        updateProgress(id);
+                        resolve();
+                        return;
+                    }
+                    console.log('[preloadAssets] fetching audio:', id, assetInfo.url);
+                    fetch(assetInfo.url)
+                        .then(response => response.arrayBuffer())
+                        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                        .then(audioBuffer => {
+                            sounds[id] = { buffer: audioBuffer, info: assetInfo };
+                            updateProgress(id);
+                            resolve();
+                        })
+                        .catch((err) => {
+                            lib.log('Failed to load audio: ' + id);
+                            console.error('[preloadAssets] audio load error:', id, err && err.message);
+                            updateProgress(id);
+                            resolve();
+                        });
+                });
+            });
+
+            await Promise.all([...imagePromises, ...audioPromises]);
+        }
+
+        // Audio functions
+        function playSound(id, loop = false) {
+            if (!sounds[id] || !audioContext) return null;
+            
+            const config = window.gameConfig;
+            const source = audioContext.createBufferSource();
+            const gainNode = audioContext.createGain();
+            
+            source.buffer = sounds[id].buffer;
+            source.loop = loop;
+            
+            const volume = config.masterVolume * config.sfxVolume;
+            gainNode.gain.value = volume;
+            
+            source.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            source.start(0);
+            
+            return source;
+        }
+
+        function playMusic() {
+            if (gameState.musicSource) {
+                try { gameState.musicSource.stop(); } catch(e){}
+                gameState.musicSource = null;
+            }
+
+            const config = window.gameConfig || {};
+
+            // Try to use WebAudio if possible; resume AudioContext first (user gesture may be required)
+            if (audioContext) {
+                try {
+                    if (audioContext.state === 'suspended' && typeof audioContext.resume === 'function') {
+                        audioContext.resume().catch(e => console.warn('audioContext.resume failed:', e));
+                    }
+                } catch (e) {
+                    console.warn('AudioContext resume error:', e);
+                }
+            }
+
+            // Prefer WebAudio buffer if decoded
+            if (sounds['background_music_loop'] && sounds['background_music_loop'].buffer && audioContext) {
+                try {
+                    const source = audioContext.createBufferSource();
+                    const gainNode = audioContext.createGain();
+                    source.buffer = sounds['background_music_loop'].buffer;
+                    source.loop = true;
+                    const volume = (config.masterVolume || 1) * (config.musicVolume || 1);
+                    gainNode.gain.value = volume;
+                    source.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    source.start(0);
+                    gameState.musicSource = source;
+                    return;
+                } catch (e) {
+                    console.warn('WebAudio playback failed, falling back to HTMLAudio:', e);
+                }
+            }
+
+            // Fallback: use HTMLAudio element if WebAudio unavailable or failed
+            try {
+                let url = (sounds['background_music_loop'] && sounds['background_music_loop'].info && sounds['background_music_loop'].info.url) || (window.__localAssets && window.__localAssets['background_music_loop'] && window.__localAssets['background_music_loop'].url) || 'background_music_loop.mp3';
+                const audioEl = new Audio(url);
+                audioEl.loop = true;
+                audioEl.volume = ((config.masterVolume || 1) * (config.musicVolume || 1));
+                audioEl.play().then(() => {
+                    gameState.musicElement = audioEl;
+                }).catch(err => {
+                    console.warn('HTMLAudio play failed (autoplay?), user interaction may be required:', err);
+                });
+            } catch (e) {
+                console.warn('Failed to play background music fallback:', e);
+            }
+        }
+
+        function stopMusic() {
+            if (gameState.musicSource) {
+                gameState.musicSource.stop();
+                gameState.musicSource = null;
+            }
+        }
+
+        // UI Functions
+        function showScreen(screenId) {
+            playSound('button_click_sfx');
+            
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Hide HUD
+            document.getElementById('gameplayHUD').classList.remove('active');
+            
+            // Show requested screen
+            const screen = document.getElementById(screenId + 'Screen');
+            if (screen) {
+                screen.classList.add('active');
+                currentScreen = screenId;
+                
+                // Special handling for stage map
+                if (screenId && screenId.toLowerCase() === 'stagemap') {
+                    populateStageMap();
+                }
+            }
+        }
+
+        function populateStageMap() {
+            const stageList = document.getElementById('stageList');
+            const config = window.gameConfig;
+            
+            stageList.innerHTML = '';
+            
+            config.stages.forEach((stage, index) => {
+                const unlocked = index < config.stagesUnlocked;
+                
+                const card = document.createElement('div');
+                card.className = 'stage-card' + (unlocked ? '' : ' locked');
+                
+                card.innerHTML = `
+                    <div class="stage-info">
+                        <div class="stage-number">مرحله ${stage.id}</div>
+                        <div class="stage-name">${stage.name}</div>
+                    </div>
+                    <div class="stage-action">
+                        ${unlocked ? 
+                            `<button class="btn btn-primary btn-small" onclick="startStageFromMap(${stage.id})">
+                                <span class="material-symbols-rounded">play_arrow</span>
+                                شروع
+                            </button>` :
+                            `<span class="material-symbols-rounded lock-icon">lock</span>`
+                        }
+                    </div>
+                `;
+                
+                stageList.appendChild(card);
+            });
+        }
+
+        function startStageFromMap(stageId) {
+            playSound('button_click_sfx');
+            // entering stage map and choosing a stage implies single-player run
+            if (!window.gameConfig) window.gameConfig = {};
+            window.gameConfig.gameMode = 'single';
+            startStage(stageId);
+        }
+
+        function startTutorial() {
+            playSound('button_click_sfx');
+            startStage(1, true);
+        }
+
+        // Tutorial navigation
+        function nextTutorialStep() {
+            const steps = document.querySelectorAll('.tutorial-step');
+            const dots = document.querySelectorAll('.tutorial-dot');
+            
+            if (currentTutorialStep < steps.length - 1) {
+                steps[currentTutorialStep].classList.remove('active');
+                dots[currentTutorialStep].classList.remove('active');
+                
+                currentTutorialStep++;
+                
+                steps[currentTutorialStep].classList.add('active');
+                dots[currentTutorialStep].classList.add('active');
+            }
+            
+            updateTutorialButtons();
+        }
+
+        function prevTutorialStep() {
+            const steps = document.querySelectorAll('.tutorial-step');
+            const dots = document.querySelectorAll('.tutorial-dot');
+            
+            if (currentTutorialStep > 0) {
+                steps[currentTutorialStep].classList.remove('active');
+                dots[currentTutorialStep].classList.remove('active');
+                
+                currentTutorialStep--;
+                
+                steps[currentTutorialStep].classList.add('active');
+                dots[currentTutorialStep].classList.add('active');
+            }
+            
+            updateTutorialButtons();
+        }
+
+        function updateTutorialButtons() {
+            const prevBtn = document.getElementById('tutorialPrevBtn');
+            const nextBtn = document.getElementById('tutorialNextBtn');
+            
+            prevBtn.style.opacity = currentTutorialStep === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentTutorialStep === 3 ? '0.5' : '1';
+        }
+
+        // Game control functions
+        function pauseGame() {
+            if (gameState.paused) return;
+            
+            playSound('button_click_sfx');
+            gameState.paused = true;
+            document.getElementById('pauseMenu').classList.add('active');
+        }
+
+        function resumeGame() {
+            playSound('button_click_sfx');
+            gameState.paused = false;
+            document.getElementById('pauseMenu').classList.remove('active');
+        }
+
+        function restartStage() {
+            playSound('button_click_sfx');
+            document.getElementById('pauseMenu').classList.remove('active');
+            startStage(gameState.currentStageId);
+        }
+
+        function quitToMenu() {
+            playSound('button_click_sfx');
+            stopGameLoop();
+            // Ensure any open modal is closed and mark game finished
+            try {
+                gameState.finished = true;
+            } catch (e) {}
+            ['pauseMenu','winModal','loseModal'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('active');
+            });
+            showScreen('menu');
+        }
+
+        function retryStage() {
+            playSound('button_click_sfx');
+            document.getElementById('loseModal').classList.remove('active');
+            startStage(gameState.currentStageId);
+        }
+
+        function nextStage() {
+            playSound('button_click_sfx');
+            document.getElementById('winModal').classList.remove('active');
+            
+            const nextStageId = gameState.currentStageId + 1;
+            if (nextStageId <= 6) {
+                startStage(nextStageId);
+            } else {
+                showScreen('menu');
+            }
+        }
+
+        // Update HUD
+        function updateHUD() {
+            if (!gameState.timer) return;
+            
+            // Score
+            document.getElementById('scoreValue').textContent = gameState.score;
+            
+            // Timer
+            const timeLeft = Math.max(0, gameState.timer);
+            document.getElementById('timerText').textContent = Math.ceil(timeLeft);
+            
+            const progress = timeLeft / gameState.maxTimer;
+            const circumference = 2 * Math.PI * 36;
+            const offset = circumference * (1 - progress);
+            document.getElementById('timerProgress').style.strokeDashoffset = offset;
+            
+            // Timer color warning
+            const timerProgress = document.getElementById('timerProgress');
+            if (timeLeft < 10) {
+                timerProgress.style.stroke = '#FF5722';
+                document.getElementById('timerText').classList.add('pulse');
+            } else {
+                timerProgress.style.stroke = 'white';
+                document.getElementById('timerText').classList.remove('pulse');
+            }
+            
+            // Water meter
+            const meterPercent = Math.min(100, gameState.waterMeter);
+            document.getElementById('meterValue').textContent = Math.floor(meterPercent) + '%';
+            document.getElementById('meterFill').style.width = meterPercent + '%';
+            
+            // Meter color warning
+            if (meterPercent > 80) {
+                document.getElementById('meterValue').classList.add('pulse');
+            } else {
+                document.getElementById('meterValue').classList.remove('pulse');
+            }
+
+            // Combo expiry handling and display
+            if (gameState.combo && Date.now() > (gameState.comboExpiry || 0)) {
+                gameState.combo = 0;
+            }
+            const comboPill = document.getElementById('comboPill');
+            if (gameState.combo && gameState.combo > 1) {
+                comboPill.style.display = 'inline-flex';
+                document.getElementById('comboCount').textContent = 'x' + gameState.combo;
+            } else {
+                comboPill.style.display = 'none';
+            }
+        }
+
+        // Show win screen
+        function showWinScreen() {
+            const stars = gameState.starsEarned || 1;
+            const starIcons = document.querySelectorAll('#starsContainer .star-icon');
+            
+            starIcons.forEach((icon, i) => {
+                if (i < stars) {
+                    icon.classList.remove('empty');
+                } else {
+                    icon.classList.add('empty');
+                }
+            });
+            
+            document.getElementById('finalScore').textContent = `امتیاز: ${gameState.score}`;
+            document.getElementById('waterTip').textContent = gameState.waterTip || 'آفرین! شما آب را ذخیره کردید!';
+            
+            document.getElementById('winModal').classList.add('active');
+        }
+
+        function showLoseScreen() {
+            document.getElementById('loseReason').textContent = gameState.loseReason || 'زمان تمام شد!';
+            document.getElementById('loseScore').textContent = `امتیاز: ${gameState.score}`;
+            
+            document.getElementById('loseModal').classList.add('active');
+        }
+
+        // Drawing utilities
+        function drawImage(id, x, y, width, height, centered = true) {
+            if (!assetCache[id]) return;
+            
+            const asset = assetCache[id];
+            const drawX = centered ? x - width / 2 : x;
+            const drawY = centered ? y - height / 2 : y;
+            
+            ctx.drawImage(asset.img, drawX, drawY, width, height);
+        }
+
+        // Show bonus popup
+        function showBonusPopup(text) {
+            const el = document.getElementById('bonusPopup');
+            if (!el) return;
+            el.textContent = text;
+            el.style.display = 'block';
+            el.style.opacity = '1';
+            // simple fade out
+            setTimeout(() => {
+                el.style.transition = 'opacity 600ms ease-out, transform 600ms ease-out';
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(50%) translateY(-10px)';
+                setTimeout(() => { el.style.display = 'none'; el.style.transition=''; el.style.transform='translateX(50%)'; }, 700);
+            }, 700);
+        }
+
+        // Game logic functions
+        function startStage(stageId, isTutorial = false) {
+            const config = window.gameConfig;
+            const stage = config.stages.find(s => s.id === stageId);
+            
+            if (!stage) return;
+            
+                // Determine chosen difficulty explicitly (tutorial -> easy) BEFORE creating objects
+                const chosenDiff = isTutorial ? 'easy' : ((window.gameConfig && window.gameConfig.currentDifficulty) || 'easy');
+                const presetsSource = (window.gameConfig && window.gameConfig.difficultyPresets) || defaultDifficultyPresets();
+                const presetForInit = presetsSource[chosenDiff] || defaultDifficultyPresets().easy;
+                const initSpeed = (presetForInit.initialSpeed || 20) * (presetForInit.displacementFactor || 1);
+
+                gameState = {
+                    currentStageId: stageId,
+                    currentStageData: stage,
+                    // mode flags
+                    isMarathon: (window.gameConfig && window.gameConfig.gameMode === 'marathon') || false,
+                    isMultiplayer: (window.gameConfig && window.gameConfig.gameMode === 'multiplayer') || false,
+                    score: 0,
+                    combo: 0,
+                    lastRepairTime: 0,
+                    comboExpiry: 0,
+                    comboWindow: 3000, // ms to continue a combo
+                    comboMultiplierStep: 0.2,
+                    maxComboMultiplier: 3,
+                    recentBonus: 0,
+                    waterMeter: 0,
+                    timer: isTutorial ? 60 : stage.timer,
+                    maxTimer: isTutorial ? 60 : stage.timer,
+                    objects: [],
+                    paused: false,
+                    isTutorial: isTutorial
+                };
+
+                // Create objects
+                const objectsToCreate = isTutorial ? stage.objects.slice(0, 2) : stage.objects;
+
+                // If multiplayer mode, create two player object lists (top & bottom halves)
+                if (window.gameConfig && window.gameConfig.gameMode === 'multiplayer' && !isTutorial) {
+                    gameState.isMultiplayer = true;
+                    gameState.players = [ { id:1, score:0, combo:0, lastRepairTime:0, comboWindow:3000, comboMultiplierStep:0.2, objects:[] }, { id:2, score:0, combo:0, lastRepairTime:0, comboWindow:3000, comboMultiplierStep:0.2, objects:[] } ];
+                    const half = CANVAS_HEIGHT/2;
+                    objectsToCreate.forEach(o => {
+                        const copy1 = { ...o, state:'broken', repaired:false, vx:(Math.random()*2-1)*initSpeed, vy:(Math.random()*2-1)*initSpeed, moving:false, movementType: presetForInit.movementType || 'static', targetX:o.x, targetY: Math.max(60, Math.min(half-60, o.y * 0.45)) };
+                        const copy2 = { ...o, state:'broken', repaired:false, vx:(Math.random()*2-1)*initSpeed, vy:(Math.random()*2-1)*initSpeed, moving:false, movementType: presetForInit.movementType || 'static', targetX:o.x, targetY: Math.max(half+60, Math.min(CANVAS_HEIGHT-60, half + o.y * 0.45)) };
+                        copy1.x = copy1.targetX; copy1.y = copy1.targetY;
+                        copy2.x = copy2.targetX; copy2.y = copy2.targetY;
+                        gameState.players[0].objects.push(copy1);
+                        gameState.players[1].objects.push(copy2);
+                    });
+                } else {
+                    gameState.objects = objectsToCreate.map(obj => ({
+                        ...obj,
+                        state: 'broken',
+                        repaired: false,
+                        vx: (Math.random() * 2 - 1) * initSpeed,
+                        vy: (Math.random() * 2 - 1) * initSpeed,
+                        moving: false,
+                        movementType: presetForInit.movementType || 'static',
+                        targetX: obj.x,
+                        targetY: obj.y,
+                        nextMoveIn: (presetForInit.movementType === 'static') ? Infinity : (Math.random() * ((presetForInit.moveMaxWait || 2) - (presetForInit.moveMinWait || 1)) + (presetForInit.moveMinWait || 1))
+                    }));
+                }
+
+            // Apply time multiplier to timers (tutorials keep fixed 60s)
+            try {
+                if (!isTutorial) {
+                    const tm = (typeof presetForInit.timeMultiplier === 'number') ? presetForInit.timeMultiplier : 1.0;
+                    const baseTimer = (stage && stage.timer) ? stage.timer : 30;
+                    const newTimer = Math.max(5, Math.round(baseTimer * tm));
+                    gameState.timer = newTimer;
+                    gameState.maxTimer = newTimer;
+                } else {
+                    gameState.timer = 60;
+                    gameState.maxTimer = 60;
+                }
+            } catch (e) {
+                console.warn('Could not apply time multiplier:', e);
+            }
+
+            // Debug logs: show chosen difficulty and object movement initialization
+            try {
+                console.log('[startStage] chosenDiff=', chosenDiff, 'preset=', presetForInit, 'appliedTimer=', gameState.timer);
+                gameState.objects.forEach((o, i) => console.log(`[startStage] obj ${i} id=${o.id} movementType=${o.movementType} nextMoveIn=${o.nextMoveIn}`));
+            } catch (e) {
+                // ignore
+            }
+
+            // update HUD difficulty label
+            try {
+                const diffLabel = document.getElementById('difficultyLabel');
+                if (diffLabel) diffLabel.textContent = 'سطح: ' + (window.gameConfig.currentDifficulty || chosenDiff || 'easy');
+            } catch (e) {}
+            
+            currentScreen = 'gameplay';
+            
+            // Show HUD
+            document.getElementById('gameplayHUD').classList.add('active');
+            
+            // Hide all other screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Start game loop
+            if (currentMode === 'play') {
+                // ensure music starts when a play session begins
+                try { playMusic(); } catch (e) { console.warn('playMusic on startStage failed:', e); }
+                startGameLoop();
+            }
+        }
+
+        function startGameLoop() {
+            // Clear any existing intervals
+            if (waterMeterInterval) clearInterval(waterMeterInterval);
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Water meter update (every 0.5s)
+            waterMeterInterval = setInterval(() => {
+                if (!gameState.paused && currentScreen === 'gameplay' && !gameState.finished) {
+                    const rate = gameState.currentStageData.waterMeterRate;
+                    const increase = Math.random() * 2 + (rate - 1);
+                    gameState.waterMeter = Math.min(100, gameState.waterMeter + increase);
+                    
+                    if (gameState.waterMeter > 80 && gameState.waterMeter < 85) {
+                        playSound('water_meter_warning_drip');
+                    }
+                    
+                    updateHUD();
+                    checkWinLose();
+                }
+            }, 500);
+            
+            // Timer update (every 100ms)
+            timerInterval = setInterval(() => {
+                if (!gameState.paused && currentScreen === 'gameplay' && !gameState.finished) {
+                    gameState.timer -= 0.1;
+                    
+                    if (gameState.timer < 10 && gameState.timer > 9.9) {
+                        playSound('timer_warning_beep');
+                    }
+                    
+                    if (Math.floor(gameState.timer) !== Math.floor(gameState.timer + 0.1)) {
+                        gameState.score = Math.max(0, gameState.score - window.gameConfig.pointsLostPerSecond);
+                    }
+                    
+                    updateHUD();
+                    checkWinLose();
+                }
+            }, 100);
+            
+            // Animation loop
+            lastTimestamp = performance.now();
+            animationFrameId = requestAnimationFrame(gameLoop);
+
+            // Marathon spawn interval: if marathon mode, spawn 3 objects per second
+            try {
+                if (gameState.isMarathon) {
+                    if (gameState.spawnInterval) clearInterval(gameState.spawnInterval);
+                    gameState.spawnInterval = setInterval(() => {
+                        if (gameState.finished || gameState.paused || currentScreen !== 'gameplay') return;
+                        for (let i=0;i<3;i++) {
+                            spawnMarathonObject();
+                        }
+                    }, 1000);
+                }
+            } catch (e) { console.warn('marathon spawn setup failed:', e); }
+        }
+
+        function gameLoop(timestamp) {
+            const delta = Math.min((timestamp - lastTimestamp) / 1000, 0.11);
+            lastTimestamp = timestamp;
+            lastDelta = delta;
+
+            render();
+            
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function checkWinLose() {
+            if (gameState.paused) return;
+            
+            // multiplayer separate checks
+            if (gameState.isMultiplayer && gameState.players && gameState.players.length === 2) {
+                for (let p=0;p<2;p++) {
+                    const allRep = gameState.players[p].objects.every(o => o.repaired);
+                    if (allRep) {
+                        gameState.finished = true;
+                        stopGameLoop();
+                        gameState.waterTip = `بازیکن ${p+1} برنده شد!`;
+                        playSound('win_fanfare');
+                        setTimeout(() => showWinScreen(), 200);
+                        return;
+                    }
+                }
+            }
+
+            const allRepaired = (!gameState.isMultiplayer) && (gameState.objects && gameState.objects.every(obj => obj.repaired));
+
+            if (allRepaired) {
+                // mark finished to prevent further timer/water updates
+                gameState.finished = true;
+                stopGameLoop();
+
+                const timePercent = gameState.timer / gameState.maxTimer;
+                const stars = timePercent > 0.5 ? 3 : timePercent > 0.2 ? 2 : 1;
+                gameState.starsEarned = stars;
+
+                const tips = [
+                    'هنگام مسواک زدن شیر آب را ببندید — روزانه حدود 8 گالن صرفه‌جویی می‌شود!',
+                    'گیاهان را اوایل صبح یا غروب آبیاری کنید تا تبخیر کاهش یابد.',
+                    'یک دوش 5 دقیقه‌ای کمتر از یک وان آب مصرف می‌کند.',
+                    'نشت‌های آب عمومی را به مسئولان محلی گزارش دهید.',
+                    'دوستان را به استفاده از بطری‌های آب چندبار مصرف تشویق کنید.',
+                    'آب باران را جمع‌آوری کنید و برای آبیاری گیاهان استفاده کنید.'
+                ];
+                gameState.waterTip = tips[gameState.currentStageId - 1] || tips[0];
+                
+                if (gameState.currentStageId >= window.gameConfig.stagesUnlocked) {
+                    window.gameConfig.stagesUnlocked = Math.min(6, gameState.currentStageId + 1);
+                }
+                
+                playSound('win_fanfare');
+                setTimeout(() => showWinScreen(), 500);
+                
+            } else if (gameState.waterMeter >= 100) {
+                gameState.finished = true;
+                stopGameLoop();
+                gameState.loseReason = 'نشانگر آب پر شد!';
+                playSound('lose_sound');
+                setTimeout(() => showLoseScreen(), 500);
+                
+            } else if (gameState.timer <= 0) {
+                // in marathon mode timer expiry => show win screen with score
+                gameState.finished = true;
+                stopGameLoop();
+                if (gameState.isMarathon) {
+                    playSound('win_fanfare');
+                    setTimeout(() => showWinScreen(), 300);
+                } else {
+                    gameState.loseReason = 'Time\'s Up!';
+                    playSound('lose_sound');
+                    setTimeout(() => showLoseScreen(), 500);
+                }
+            }
+        }
+
+        function stopGameLoop() {
+            if (waterMeterInterval) {
+                clearInterval(waterMeterInterval);
+                waterMeterInterval = null;
+            }
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            try {
+                if (gameState && gameState.spawnInterval) { clearInterval(gameState.spawnInterval); gameState.spawnInterval = null; }
+            } catch (e) {}
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            stopMusic();
+            
+            document.getElementById('gameplayHUD').classList.remove('active');
+        }
+
+        // Input handling
+        function handleTap(x, y) {
+            if (currentScreen === 'gameplay' && !gameState.paused) {
+                if (currentMode === 'edit') {
+                    handleEditTap(x, y);
+                } else {
+                    // Multiplayer: determine which player area was tapped
+                    if (gameState.isMultiplayer && gameState.players && gameState.players.length === 2) {
+                        const half = CANVAS_HEIGHT / 2;
+                        const pIdx = (y < half) ? 0 : 1;
+                        const player = gameState.players[pIdx];
+                        if (player && player.objects) {
+                            player.objects.forEach(obj => {
+                                if (!obj.repaired) {
+                                    const size = 150 * obj.scale;
+                                    const rect = { x: obj.x - size/2, y: obj.y - size/2, width: size, height: size };
+                                    if (isPointInRect(x, y, rect)) {
+                                        obj.state = 'repairing';
+                                        setTimeout(() => {
+                                            obj.state = 'repaired';
+                                            obj.repaired = true;
+                                            // in marathon mode we already remove objects; multiplayer keeps them marked
+                                            try { checkWinLose(); } catch (e) { console.warn('checkWinLose error:', e); }
+                                        }, 200);
+                                        setTimeout(() => {
+                                            const now = Date.now();
+                                            if (player.lastRepairTime && (now - player.lastRepairTime) <= player.comboWindow) {
+                                                player.combo = (player.combo || 0) + 1;
+                                            } else { player.combo = 1; }
+                                            player.lastRepairTime = now;
+                                            player.comboExpiry = now + player.comboWindow;
+                                            const base = window.gameConfig.pointsPerRepair || 10;
+                                            const multiplier = Math.min(1 + (player.combo - 1) * player.comboMultiplierStep, player.maxComboMultiplier || 3);
+                                            const pointsAwarded = Math.round(base * multiplier);
+                                            player.score = (player.score || 0) + pointsAwarded;
+                                            playSound('tap_repair_sfx');
+                                            updateHUD();
+                                        }, 200);
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        // Single-player / marathon handling
+                        gameState.objects.forEach(obj => {
+                            if (!obj.repaired) {
+                                const size = 150 * obj.scale;
+                                const rect = { x: obj.x - size/2, y: obj.y - size/2, width: size, height: size };
+                                if (isPointInRect(x, y, rect)) {
+                                    obj.state = 'repairing';
+                                    setTimeout(() => {
+                                        obj.state = 'repaired';
+                                        obj.repaired = true;
+                                        if (isMarathon()) {
+                                            try {
+                                                gameState.objects = gameState.objects.filter(o => o.id !== obj.id);
+                                                if (gameState.currentStageData && Array.isArray(gameState.currentStageData.objects)) {
+                                                    gameState.currentStageData.objects = gameState.currentStageData.objects.filter(o => o.id !== obj.id);
+                                                }
+                                            } catch (e) { console.warn('Error removing object in marathon mode:', e); }
+                                        }
+                                        try { checkWinLose(); } catch (e) { console.warn('checkWinLose error:', e); }
+                                    }, 200);
+                                    setTimeout(() => {
+                                        const now = Date.now();
+                                        if (gameState.lastRepairTime && (now - gameState.lastRepairTime) <= gameState.comboWindow) {
+                                            gameState.combo = (gameState.combo || 0) + 1;
+                                        } else { gameState.combo = 1; }
+                                        gameState.lastRepairTime = now;
+                                        gameState.comboExpiry = now + gameState.comboWindow;
+                                        const base = window.gameConfig.pointsPerRepair || 10;
+                                        const multiplier = Math.min(1 + (gameState.combo - 1) * gameState.comboMultiplierStep, gameState.maxComboMultiplier);
+                                        const pointsAwarded = Math.round(base * multiplier);
+                                        gameState.score += pointsAwarded;
+                                        let bonus = 0;
+                                        if (gameState.combo === 5) bonus = 50; else if (gameState.combo === 10) bonus = 150;
+                                        if (bonus > 0) { gameState.score += bonus; gameState.recentBonus = bonus; showBonusPopup('+' + bonus); } else { gameState.recentBonus = 0; }
+                                        playSound('tap_repair_sfx');
+                                        updateHUD();
+                                        if (window.gameConfig.vibrationEnabled && navigator.vibrate) navigator.vibrate(50);
+                                    }, 200);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        function handleEditTap(x, y) {
+            let selected = null;
+            gameState.objects.forEach(obj => {
+                const size = 150 * obj.scale;
+                const rect = {
+                    x: obj.x - size/2,
+                    y: obj.y - size/2,
+                    width: size,
+                    height: size
+                };
+                
+                if (isPointInRect(x, y, rect)) {
+                    selected = obj;
+                }
+            });
+            
+            if (selected) {
+                editState.selectedObject = selected;
+                editState.dragStart = { x, y };
+                editState.objStart = { x: selected.x, y: selected.y };
+                showObjectEditor(selected);
+            } else {
+                editState.selectedObject = null;
+                lib.editMenu.close();
+            }
+        }
+
+        function handleDrag(x, y) {
+            if (currentMode === 'edit' && editState.selectedObject && editState.dragStart) {
+                const dx = x - editState.dragStart.x;
+                const dy = y - editState.dragStart.y;
+                
+                editState.selectedObject.x = editState.objStart.x + dx;
+                editState.selectedObject.y = editState.objStart.y + dy;
+                
+                const configObj = gameState.currentStageData.objects.find(o => o.id === editState.selectedObject.id);
+                if (configObj) {
+                    configObj.x = editState.selectedObject.x;
+                    configObj.y = editState.selectedObject.y;
+                }
+            }
+        }
+
+        function handleRelease() {
+            if (editState.dragStart) {
+                editState.dragStart = null;
+                editState.objStart = null;
+            }
+        }
+
+        function showObjectEditor(obj) {
+            const configObj = gameState.currentStageData.objects.find(o => o.id === obj.id);
+            if (!configObj) return;
+            
+            lib.editMenu.open({
+                name: 'Object Properties',
+                params: {
+                    'Type': {
+                        key: `gameConfig.stages.${gameState.currentStageId - 1}.objects.${gameState.currentStageData.objects.indexOf(configObj)}.type`,
+                        type: 'dropdown',
+                        options: OBJECT_TYPES.map(t => ({ label: t.replace(/_/g, ' '), value: t })),
+                        onChange: (value) => {
+                            obj.type = value;
+                            configObj.type = value;
+                        }
+                    },
+                    'X Position': {
+                        key: `gameConfig.stages.${gameState.currentStageId - 1}.objects.${gameState.currentStageData.objects.indexOf(configObj)}.x`,
+                        type: 'number',
+                        min: 0,
+                        max: CANVAS_WIDTH,
+                        onChange: (value) => {
+                            obj.x = value;
+                            configObj.x = value;
+                        }
+                    },
+                    'Y Position': {
+                        key: `gameConfig.stages.${gameState.currentStageId - 1}.objects.${gameState.currentStageData.objects.indexOf(configObj)}.y`,
+                        type: 'number',
+                        min: 0,
+                        max: CANVAS_HEIGHT,
+                        onChange: (value) => {
+                            obj.y = value;
+                            configObj.y = value;
+                        }
+                    },
+                    'Scale': {
+                        key: `gameConfig.stages.${gameState.currentStageId - 1}.objects.${gameState.currentStageData.objects.indexOf(configObj)}.scale`,
+                        type: 'slider',
+                        min: 0.5,
+                        max: 1.5,
+                        step: 0.1,
+                        onChange: (value) => {
+                            obj.scale = value;
+                            configObj.scale = value;
+                        }
+                    }
+                },
+                onCopy: () => {
+                    if (gameState.objects.length < 7) {
+                        const newObj = {
+                            ...obj,
+                            id: 'obj_' + Date.now(),
+                            x: obj.x + 50,
+                            y: obj.y + 50
+                        };
+                        gameState.objects.push(newObj);
+                        gameState.currentStageData.objects.push(newObj);
+                    }
+                },
+                onDelete: () => {
+                    if (gameState.objects.length > 3) {
+                        gameState.objects = gameState.objects.filter(o => o.id !== obj.id);
+                        gameState.currentStageData.objects = gameState.currentStageData.objects.filter(o => o.id !== obj.id);
+                        editState.selectedObject = null;
+                        lib.editMenu.close();
+                    }
+                }
+            });
+        }
+
+        function isPointInRect(x, y, rect) {
+            return x >= rect.x && x <= rect.x + rect.width &&
+                   y >= rect.y && y <= rect.y + rect.height;
+        }
+
+        // Render function
+        function render() {
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            if (currentScreen === 'gameplay') {
+                const stage = gameState.currentStageData;
+
+                // Background
+                if (stage && assetCache[stage.background]) {
+                    if (gameState.isMultiplayer) {
+                        // draw same background split for two players
+                        ctx.drawImage(assetCache[stage.background].img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT/2);
+                        ctx.drawImage(assetCache[stage.background].img, 0, CANVAS_HEIGHT/2, CANVAS_WIDTH, CANVAS_HEIGHT/2);
+                    } else {
+                        ctx.drawImage(assetCache[stage.background].img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    }
+                } else {
+                    ctx.fillStyle = '#BBDEFB';
+                    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                }
+                
+                // Update object positions according to difficulty movementType
+                if (gameState.objects) {
+                    const dt = Math.max(0.001, Math.min(lastDelta || 0.016, 0.11));
+                    const preset = getDifficultyPreset() || defaultDifficultyPresets().easy;
+
+                    gameState.objects.forEach(obj => {
+                        // In marathon mode repaired objects are removed; otherwise allow repaired objects to continue moving
+                        if (obj.repaired && isMarathon()) return;
+
+                        // prefer per-object movementType (set at stage init), fallback to preset
+                        const movementType = obj.movementType || preset.movementType || 'static';
+
+                        if (movementType === 'static') {
+                            // nothing to do for static objects
+                            return;
+                        }
+
+                        // lerp/move-to-target behavior
+                        if (!obj.moving) {
+                            // countdown to next move
+                            obj.nextMoveIn = (typeof obj.nextMoveIn === 'number') ? (obj.nextMoveIn - dt) : 0;
+                            if (obj.nextMoveIn <= 0) {
+                                // choose a new target sufficiently far from current position
+                                const marginX = 80 * (obj.scale || 1);
+                                const marginY = 80 * (obj.scale || 1);
+                                const minX = marginX;
+                                const maxX = CANVAS_WIDTH - marginX;
+                                const minY = marginY;
+                                const maxY = CANVAS_HEIGHT - marginY;
+
+                                const minDist = (preset.minMoveDistance || 100) * (preset.displacementFactor || 1);
+                                let tries = 0;
+                                let tx = obj.x;
+                                let ty = obj.y;
+                                while (tries < 10) {
+                                    tx = Math.random() * (maxX - minX) + minX;
+                                    ty = Math.random() * (maxY - minY) + minY;
+                                    const dx = tx - obj.x;
+                                    const dy = ty - obj.y;
+                                    if (Math.sqrt(dx*dx + dy*dy) >= minDist) break;
+                                    tries++;
+                                }
+
+                                obj.targetX = tx;
+                                obj.targetY = ty;
+                                obj.moving = true;
+                            }
+                        }
+
+                        if (obj.moving) {
+                            const tx = obj.targetX;
+                            const ty = obj.targetY;
+                            const dx = tx - obj.x;
+                            const dy = ty - obj.y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            const speed = (preset.moveSpeed || preset.initialSpeed || 60);
+                            const step = speed * dt;
+
+                            if (dist <= step || dist === 0) {
+                                // arrive
+                                obj.x = tx;
+                                obj.y = ty;
+                                obj.moving = false;
+                                // schedule next move
+                                const minWait = preset.moveMinWait || 1;
+                                const maxWait = preset.moveMaxWait || 3;
+                                obj.nextMoveIn = Math.random() * (maxWait - minWait) + minWait;
+                            } else {
+                                // move proportionally towards target
+                                obj.x += (dx / dist) * step;
+                                obj.y += (dy / dist) * step;
+                            }
+                        }
+                    });
+                }
+
+                // Objects
+                if (gameState.isMultiplayer && gameState.players && gameState.players.length === 2) {
+                    // draw player1 objects (top)
+                    gameState.players[0].objects.forEach(obj => {
+                        const assetId = `${obj.type}_${obj.state}`;
+                        if (assetCache[assetId]) {
+                            const size = 150 * obj.scale;
+                            drawImage(assetId, obj.x, obj.y, size, size);
+                        }
+                    });
+                    // draw dividing line
+                    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(0,CANVAS_HEIGHT/2); ctx.lineTo(CANVAS_WIDTH,CANVAS_HEIGHT/2); ctx.stroke();
+                    // draw player2 objects (bottom)
+                    gameState.players[1].objects.forEach(obj => {
+                        const assetId = `${obj.type}_${obj.state}`;
+                        if (assetCache[assetId]) {
+                            const size = 150 * obj.scale;
+                            drawImage(assetId, obj.x, obj.y, size, size);
+                        }
+                    });
+                } else {
+                    if (gameState.objects) {
+                        gameState.objects.forEach(obj => {
+                            const assetId = `${obj.type}_${obj.state}`;
+                            if (assetCache[assetId]) {
+                                const size = 150 * obj.scale;
+                                drawImage(assetId, obj.x, obj.y, size, size);
+                                if (currentMode === 'edit' && editState.selectedObject === obj) {
+                                    ctx.strokeStyle = '#FFC107'; ctx.lineWidth = 4; ctx.strokeRect(obj.x - size/2, obj.y - size/2, size, size);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        // Setup input handlers
+        function setupInputHandlers() {
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const x = (touch.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+                const y = (touch.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
+                handleTap(x, y);
+            });
+            
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const x = (touch.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+                const y = (touch.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
+                handleDrag(x, y);
+            });
+            
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                handleRelease();
+            });
+            
+            canvas.addEventListener('mousedown', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+                const y = (e.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
+                handleTap(x, y);
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+                const y = (e.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
+                handleDrag(x, y);
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                handleRelease();
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (currentScreen === 'gameplay' && currentMode === 'play') {
+                    if (e.key === 'Escape' || e.key === ' ') {
+                        e.preventDefault();
+                        if (gameState.paused) {
+                            resumeGame();
+                        } else {
+                            pauseGame();
+                        }
+                    } else if (e.key === 'r' || e.key === 'R') {
+                        e.preventDefault();
+                        restartStage();
+                    }
+                }
+            });
+        }
+
+        // Main run function
+        async function run(mode) {
+            lib.log('run() called. Mode: ' + mode);
+            currentMode = mode;
+            
+            initCanvas();
+            await preloadAssets();
+            
+            document.getElementById('loadingScreen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 300);
+            
+            setupInputHandlers();
+            
+            lib.showGameParameters({
+                name: 'Game Settings',
+                params: {
+                    'Points Per Repair': {
+                        key: 'gameConfig.pointsPerRepair',
+                        type: 'number',
+                        min: 1,
+                        max: 50,
+                        onChange: (value) => {
+                            window.gameConfig.pointsPerRepair = value;
+                        }
+                    },
+                    'Points Lost Per Second': {
+                        key: 'gameConfig.pointsLostPerSecond',
+                        type: 'number',
+                        min: 0,
+                        max: 10,
+                        onChange: (value) => {
+                            window.gameConfig.pointsLostPerSecond = value;
+                        }
+                    },
+                    'Master Volume': {
+                        key: 'gameConfig.masterVolume',
+                        type: 'slider',
+                        min: 0,
+                        max: 1,
+                        step: 0.1,
+                        onChange: (value) => {
+                            window.gameConfig.masterVolume = value;
+                        }
+                    },
+                    'SFX Volume': {
+                        key: 'gameConfig.sfxVolume',
+                        type: 'slider',
+                        min: 0,
+                        max: 1,
+                        step: 0.1,
+                        onChange: (value) => {
+                            window.gameConfig.sfxVolume = value;
+                        }
+                    },
+                    'Music Volume': {
+                        key: 'gameConfig.musicVolume',
+                        type: 'slider',
+                        min: 0,
+                        max: 1,
+                        step: 0.1,
+                        onChange: (value) => {
+                            window.gameConfig.musicVolume = value;
+                        }
+                    }
+                }
+            });
+            
+            if (mode === 'edit') {
+                startStage(1);
+            } else {
+                showScreen('start');
+            }
+            
+            lastTimestamp = performance.now();
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+    </script>
+        <!-- Bootstrap debug loader: loads config.json if missing, stubs lib, and calls run('play') -->
+        <script>
+        // Ensure a local fallback config is present (useful when opening via file://)
+        if (!window.gameConfig) {
+                window.gameConfig = {
+    "currentStage": 1,
+    "stagesUnlocked": 1,
+    "tutorialCompleted": false,
+    "currentDifficulty": "easy",
+    "difficultyPresets": {
+        "easy": { "initialSpeed": 20, "accel": 30, "maxSpeed": 60, "damping": 0.98, "displacementFactor": 1, "movementType": "static", "moveSpeed": 0, "moveMinWait": 9999, "moveMaxWait": 9999, "minMoveDistance": 0, "timeMultiplier": 1.3 },
+        "medium": { "initialSpeed": 40, "accel": 60, "maxSpeed": 120, "damping": 0.96, "displacementFactor": 1.5, "movementType": "lerp", "moveSpeed": 60, "moveMinWait": 1.2, "moveMaxWait": 2.8, "minMoveDistance": 120, "timeMultiplier": 1.0 },
+        "hard": { "initialSpeed": 60, "accel": 90, "maxSpeed": 180, "damping": 0.94, "displacementFactor": 2, "movementType": "lerp", "moveSpeed": 120, "moveMinWait": 0.6, "moveMaxWait": 1.8, "minMoveDistance": 160, "timeMultiplier": 0.7 }
+    },
+    "stages": [
+        {
+            "id": 1,
+            "name": "آشپزخانه",
+            "background": "kitchen_background",
+            "timer": 45,
+            "waterMeterRate": 2,
+            "objects": [
+                { "type": "open_faucet", "x": 200, "y": 500, "scale": 1, "id": "kitchen_obj1" },
+                { "type": "cracked_pipe", "x": 520, "y": 700, "scale": 0.9, "id": "kitchen_obj2" },
+                { "type": "overflowing_tank", "x": 360, "y": 900, "scale": 1.1, "id": "kitchen_obj3" },
+                { "type": "open_faucet", "x": 180, "y": 1050, "scale": 0.8, "id": "kitchen_obj4" },
+                { "type": "dropping_hose", "x": 540, "y": 400, "scale": 0.9, "id": "kitchen_obj5" }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "حیاط",
+            "background": "yard_background",
+            "timer": 45,
+            "waterMeterRate": 2,
+            "objects": [
+                { "type": "dropping_hose", "x": 180, "y": 450, "scale": 1, "id": "yard_obj1" },
+                { "type": "yard_tap", "x": 540, "y": 600, "scale": 1.1, "id": "yard_obj2" },
+                { "type": "overflowing_tank", "x": 360, "y": 850, "scale": 1, "id": "yard_obj3" },
+                { "type": "dropping_hose", "x": 200, "y": 1050, "scale": 0.9, "id": "yard_obj4" },
+                { "type": "cracked_pipe", "x": 520, "y": 950, "scale": 0.8, "id": "yard_obj5" }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "حمام",
+            "background": "bathroom_background",
+            "timer": 40,
+            "waterMeterRate": 2.5,
+            "objects": [
+                { "type": "running_shower", "x": 180, "y": 400, "scale": 1, "id": "bathroom_obj1" },
+                { "type": "open_faucet", "x": 540, "y": 550, "scale": 1, "id": "bathroom_obj2" },
+                { "type": "cracked_pipe", "x": 360, "y": 750, "scale": 0.9, "id": "bathroom_obj3" },
+                { "type": "overflowing_tank", "x": 200, "y": 950, "scale": 1.1, "id": "bathroom_obj4" },
+                { "type": "running_shower", "x": 520, "y": 1100, "scale": 0.8, "id": "bathroom_obj5" },
+                { "type": "open_faucet", "x": 360, "y": 500, "scale": 0.9, "id": "bathroom_obj6" }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "پارک",
+            "background": "park_background",
+            "timer": 40,
+            "waterMeterRate": 2.5,
+            "objects": [
+                { "type": "yard_tap", "x": 180, "y": 450, "scale": 1, "id": "park_obj1" },
+                { "type": "dropping_hose", "x": 540, "y": 600, "scale": 1, "id": "park_obj2" },
+                { "type": "cracked_pipe", "x": 360, "y": 800, "scale": 1.1, "id": "park_obj3" },
+                { "type": "overflowing_tank", "x": 200, "y": 1000, "scale": 0.9, "id": "park_obj4" },
+                { "type": "yard_tap", "x": 520, "y": 1100, "scale": 0.8, "id": "park_obj5" },
+                { "type": "dropping_hose", "x": 360, "y": 500, "scale": 0.9, "id": "park_obj6" }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "مدرسه",
+            "background": "school_background",
+            "timer": 30,
+            "waterMeterRate": 3,
+            "objects": [
+                { "type": "open_faucet", "x": 180, "y": 400, "scale": 1, "id": "school_obj1" },
+                { "type": "cracked_pipe", "x": 540, "y": 550, "scale": 1, "id": "school_obj2" },
+                { "type": "overflowing_tank", "x": 360, "y": 700, "scale": 1.1, "id": "school_obj3" },
+                { "type": "open_faucet", "x": 200, "y": 900, "scale": 0.9, "id": "school_obj4" },
+                { "type": "cracked_pipe", "x": 520, "y": 1050, "scale": 0.8, "id": "school_obj5" },
+                { "type": "dropping_hose", "x": 360, "y": 500, "scale": 0.9, "id": "school_obj6" },
+                { "type": "yard_tap", "x": 180, "y": 1100, "scale": 0.8, "id": "school_obj7" }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "گلخانه",
+            "background": "greenhouse_background",
+            "timer": 30,
+            "waterMeterRate": 3,
+            "objects": [
+                { "type": "dropping_hose", "x": 180, "y": 400, "scale": 1, "id": "greenhouse_obj1" },
+                { "type": "yard_tap", "x": 540, "y": 550, "scale": 1, "id": "greenhouse_obj2" },
+                { "type": "leaking_cooler", "x": 360, "y": 700, "scale": 1.1, "id": "greenhouse_obj3" },
+                { "type": "overflowing_tank", "x": 200, "y": 900, "scale": 0.9, "id": "greenhouse_obj4" },
+                { "type": "dropping_hose", "x": 520, "y": 1050, "scale": 0.8, "id": "greenhouse_obj5" },
+                { "type": "cracked_pipe", "x": 360, "y": 500, "scale": 0.9, "id": "greenhouse_obj6" },
+                { "type": "yard_tap", "x": 180, "y": 1100, "scale": 0.8, "id": "greenhouse_obj7" }
+            ]
+        }
+    ],
+    "pointsPerRepair": 10,
+    "pointsLostPerSecond": 1,
+    "masterVolume": 1,
+    "sfxVolume": 1,
+    "musicVolume": 0.7,
+    "vibrationEnabled": true
+};
+        }
+        (function bootstrapDebug(){
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('[bootstrap] DOMContentLoaded');
+
+            // Load config.json into window.gameConfig if not present
+            if (!window.gameConfig) {
+                try {
+                    const resp = await fetch('config.json');
+                    if (resp.ok) {
+                        window.gameConfig = await resp.json();
+                        console.log('[bootstrap] loaded config.json -> window.gameConfig');
+                    } else {
+                        console.warn('[bootstrap] config.json fetch returned', resp.status);
+                    }
+                } catch (e) {
+                    console.warn('[bootstrap] could not load config.json:', e);
+                }
+            } else {
+                console.log('[bootstrap] window.gameConfig already defined');
+            }
+
+            // Ensure difficulty presets and current difficulty are present
+            try {
+                // Merge default preset fields into any existing presets so older config.json formats still get movement fields
+                const defaults = defaultDifficultyPresets();
+                if (!window.gameConfig.difficultyPresets) {
+                    window.gameConfig.difficultyPresets = defaults;
+                } else {
+                    Object.keys(defaults).forEach(key => {
+                        if (!window.gameConfig.difficultyPresets[key]) {
+                            window.gameConfig.difficultyPresets[key] = defaults[key];
+                        } else {
+                            // merge missing fields for existing preset
+                            Object.keys(defaults[key]).forEach(k => {
+                                if (window.gameConfig.difficultyPresets[key][k] === undefined) {
+                                    window.gameConfig.difficultyPresets[key][k] = defaults[key][k];
+                                }
+                            });
+                        }
+                    });
+                }
+                // prefer persisted difficulty from localStorage if present
+                try {
+                    if (typeof localStorage !== 'undefined') {
+                        const saved = localStorage.getItem('wgx_difficulty');
+                        if (saved) {
+                            window.gameConfig.currentDifficulty = saved;
+                        }
+                    }
+                } catch (e) {
+                    // ignore localStorage errors
+                }
+                if (!window.gameConfig.currentDifficulty) {
+                    window.gameConfig.currentDifficulty = 'easy';
+                }
+                // sync UI if start screen exists
+                setTimeout(() => {
+                    if (typeof setDifficulty === 'function') setDifficulty(window.gameConfig.currentDifficulty);
+                }, 50);
+                // restore persisted gameMode if present
+                setTimeout(() => {
+                    try {
+                        if (typeof localStorage !== 'undefined') {
+                            const gm = localStorage.getItem('wgx_gameMode');
+                            if (gm && typeof setGameMode === 'function') setGameMode(gm);
+                        }
+                    } catch (e) {}
+                }, 60);
+            } catch (e) {
+                console.warn('Could not ensure difficulty presets:', e);
+            }
+
+            // Provide a minimal lib implementation so the game can run locally
+            if (!window.lib) {
+                (function createLocalLib(){
+                    const audioIds = new Set([
+                        'water_running_loop','tap_repair_sfx','timer_warning_beep',
+                        'water_meter_warning_drip','win_fanfare','lose_sound',
+                        'button_click_sfx','background_music_loop'
+                    ]);
+
+                    const svgCache = {};
+
+                    function makePlaceholderSVG(id, w = 512, h = 512) {
+                        if (svgCache[id]) return svgCache[id];
+                        const bg = '#90CAF9';
+                        const textColor = '#0D47A1';
+                        const svg = `<?xml version="1.0" encoding="utf-8"?>\n` +
+                            `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' viewBox='0 0 ${w} ${h}'>` +
+                            `<rect width='100%' height='100%' fill='${bg}'/>` +
+                            `<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-size='28' fill='${textColor}'>${id}</text>` +
+                            `</svg>`;
+                        const dataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+                        svgCache[id] = dataUrl;
+                        return dataUrl;
+                    }
+
+                    window.lib = {
+                        getAsset: (id) => {
+                            // If this id looks like audio, return null so preload skips it
+                            if (audioIds.has(id)) return null;
+                            // Return a simple image asset object with a data-URL SVG placeholder
+                            return { type: 'image', url: makePlaceholderSVG(id, 512, 512) };
+                        },
+                        log: function() { console.log('[lib.log]', ...arguments); },
+                        showGameParameters: function(opts) { console.log('[lib.showGameParameters]', opts); },
+                        editMenu: { open: function() { console.log('[lib.editMenu] open'); }, close: function() { console.log('[lib.editMenu] close'); } },
+                    };
+                    console.log('[bootstrap] created local lib.getAsset that returns SVG placeholders for images');
+                })();
+            } else {
+                console.log('[bootstrap] window.lib already present');
+            }
+
+            // Prefer a local assets manifest if present (local_assets_map.json)
+            try {
+                const resp = await fetch('local_assets_map.json');
+                if (resp.ok) {
+                    window.__localAssets = await resp.json();
+                    console.log('[bootstrap] loaded local_assets_map.json; will prefer local assets');
+                } else {
+                    console.log('[bootstrap] no local_assets_map.json found (status)', resp.status);
+                }
+            } catch (e) {
+                console.log('[bootstrap] no local assets manifest', e && e.message);
+            }
+
+            // If a standalone music file exists in the repo root, prefer it for background music
+            try {
+                const audioCandidates = ['background_music_loop.wav','background_music_loop.mp3','background_music_loop.ogg','background_music_loop.m4a','background_music_loop.aac'];
+                for (const candidate of audioCandidates) {
+                    try {
+                        const headResp = await fetch(candidate, { method: 'HEAD' });
+                        if (headResp && headResp.ok) {
+                            window.__localAssets = window.__localAssets || {};
+                            window.__localAssets['background_music_loop'] = { type: 'audio', url: candidate };
+                            console.log('[bootstrap] wired root audio file for background_music_loop ->', candidate);
+                            break;
+                        }
+                    } catch (headErr) {
+                        // Some environments don't allow HEAD; try GET as fallback (may download small file headers)
+                        try {
+                            const getResp = await fetch(candidate, { method: 'GET' });
+                            if (getResp && getResp.ok) {
+                                window.__localAssets = window.__localAssets || {};
+                                window.__localAssets['background_music_loop'] = { type: 'audio', url: candidate };
+                                console.log('[bootstrap] wired root audio file for background_music_loop via GET ->', candidate);
+                                // We won't consume the body here; the preloader will fetch when needed
+                                break;
+                            }
+                        } catch (getErr) {
+                            // ignore and try next candidate
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('[bootstrap] error while checking root audio candidates:', e);
+            }
+
+            // If local manifest exists, wrap lib.getAsset to prefer local map
+            if (window.__localAssets && window.lib && typeof window.lib.getAsset === 'function') {
+                const origGetAsset = window.lib.getAsset.bind(window.lib);
+                window.lib.getAsset = (id) => {
+                    if (window.__localAssets[id]) return window.__localAssets[id];
+                    return origGetAsset(id);
+                };
+                console.log('[bootstrap] lib.getAsset wrapped to prefer local assets');
+            }
+
+            // Auto-start the game in play mode if run() exists
+            if (typeof run === 'function') {
+                try {
+                    run('play');
+                    console.log('[bootstrap] run("play") called');
+                } catch (err) {
+                    console.error('[bootstrap] run() threw:', err);
+                }
+            } else {
+                console.warn('[bootstrap] run() not found on the page');
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
