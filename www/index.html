@@ -1620,24 +1620,32 @@
             const updateProgress = (id) => {
                 loaded++;
                 const progress = (loaded / total) * 100;
-                document.getElementById('loadingProgress').style.width = progress + '%';
+                const progressEl = document.getElementById('loadingProgress');
+                if (progressEl) progressEl.style.width = progress + '%';
                 console.log('[preloadAssets] loaded:', id, Math.round(progress) + '%', `(${loaded}/${total})`);
             };
 
             console.log('[preloadAssets] start. total assets=', total);
 
-            // Load images
+            // Load images with timeout
             const imagePromises = imageAssets.map(id => {
                 return new Promise((resolve) => {
                     const url = id + '.webp';
-                    console.log('[preloadAssets] loading image:', id, url);
+                    const timeout = setTimeout(() => {
+                        console.warn('[preloadAssets] image load timeout:', id, url);
+                        updateProgress(id);
+                        resolve();
+                    }, 5000);
+
                     const img = new Image();
                     img.onload = () => {
+                        clearTimeout(timeout);
                         assetCache[id] = { img, info: { url } };
                         updateProgress(id);
                         resolve();
                     };
                     img.onerror = () => {
+                        clearTimeout(timeout);
                         console.error('[preloadAssets] image load error:', id, url);
                         updateProgress(id);
                         resolve();
@@ -1646,29 +1654,69 @@
                 });
             });
 
-            // Load audio
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            // Load audio with timeout and better error handling
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.warn('[preloadAssets] AudioContext creation failed:', e && e.message);
+                audioContext = null;
+            }
+
             const audioPromises = audioAssets.map(id => {
                 return new Promise((resolve) => {
                     const url = id + '.wav';
-                    console.log('[preloadAssets] fetching audio:', id, url);
-                    fetch(url)
-                        .then(response => response.arrayBuffer())
-                        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                    const timeout = setTimeout(() => {
+                        console.warn('[preloadAssets] audio fetch timeout:', id, url);
+                        updateProgress(id);
+                        resolve();
+                    }, 5000);
+
+                    if (!audioContext) {
+                        console.warn('[preloadAssets] skipping audio (no AudioContext):', id);
+                        clearTimeout(timeout);
+                        updateProgress(id);
+                        resolve();
+                        return;
+                    }
+
+                    fetch(url, { signal: AbortSignal.timeout(4000) })
+                        .then(response => {
+                            if (!response.ok) throw new Error('HTTP ' + response.status);
+                            return response.arrayBuffer();
+                        })
+                        .then(arrayBuffer => {
+                            if (!audioContext) throw new Error('AudioContext lost');
+                            return audioContext.decodeAudioData(arrayBuffer);
+                        })
                         .then(audioBuffer => {
+                            clearTimeout(timeout);
                             sounds[id] = { buffer: audioBuffer, info: { url } };
                             updateProgress(id);
                             resolve();
                         })
                         .catch((err) => {
-                            console.error('[preloadAssets] audio load error:', id, err && err.message);
+                            clearTimeout(timeout);
+                            console.warn('[preloadAssets] audio load skipped:', id, err && err.message);
                             updateProgress(id);
                             resolve();
                         });
                 });
             });
 
-            await Promise.all([...imagePromises, ...audioPromises]);
+            // Set a hard timeout for entire preload
+            const hardTimeout = new Promise(resolve => {
+                setTimeout(() => {
+                    console.warn('[preloadAssets] hard timeout reached, proceeding with partial load');
+                    resolve();
+                }, 15000);
+            });
+
+            await Promise.race([
+                Promise.all([...imagePromises, ...audioPromises]),
+                hardTimeout
+            ]);
+
+            console.log('[preloadAssets] complete. loaded=' + loaded + '/' + total);
         }
 
         // Audio functions
@@ -1907,7 +1955,7 @@
             return storyNarrative.stages[stageId] || {};
         }
         
-        function showStoryBefore Stage(stageId) {
+        function showStoryBeforeStage(stageId) {
             const story = getStoryForStage(stageId);
             if (!story.story) return false;
             
@@ -2001,7 +2049,7 @@
             if (!window.gameConfig) window.gameConfig = {};
             window.gameConfig.gameMode = 'single';
             // Show story before starting
-            if (!showStoryBefore Stage(stageId)) {
+            if (!showStoryBeforeStage(stageId)) {
                 startStage(stageId);
             }
         }
